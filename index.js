@@ -11,7 +11,7 @@ const db = mysql.createConnection({
   host:'localhost',
   user:'root',
   password:'2021',
-  database:'hanjun'
+  database:'ecosystem'
 });
 
 app.get('/', function (req, res) {
@@ -25,6 +25,18 @@ app.get('/charge', function (req, res) {
 app.post('/charge', function (req, res) {
   console.log(req.body.min_price);
   res.sendFile(__dirname + "/view/charge.html")
+});
+
+app.get('/user', function (req, res) {
+  res.sendFile(__dirname + "/view/user.html")
+});
+
+app.post('/new_user', function (req, res) {
+  db.query(`INSERT INTO user_info (id, name, car, battery) VALUES ('${req.body.id}', '${req.body.name}', '${req.body.car}', '${req.body.battery}')`, (err, results) => {
+    if(err) throw err;
+    else console.log(results)
+  });
+  res.redirect('/user');
 });
 
 // app.get('/*', function (req, res) {
