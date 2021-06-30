@@ -46,7 +46,7 @@ app.get('/user', function (req, res) {
 });
 
 app.post('/new_user', function (req, res) {
-  db.query(`INSERT INTO user_info (id, name, car, battery) VALUES ('${req.body.id}', '${req.body.name}', '${req.body.car}', '${req.body.battery}')`, (err, results) => {
+  db.query(`INSERT INTO user_info (name, car, battery) VALUES ('${req.body.name}', '${req.body.car}', '${req.body.battery}')`, (err, results) => {
     if(err) throw err;
     else console.log(results)
   });

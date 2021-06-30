@@ -13,8 +13,7 @@ module.exports = {
                 </button>
                 <h1> User </h1>
                 <form method="POST" action="/new_user">
-                ID : <input type="number" name="id">
-                <br>Name : <input type="text" name="name">
+                Name : <input type="text" name="name">
                 <br>Car : <input type="text" name="car">
                 <br>Battery : <input type="number" name="battery">
                 <br><input type="submit" value="add">
@@ -35,7 +34,6 @@ module.exports = {
         list += '<th>Battery</th>';
         {
             console.log(data);
-            console.log(data[0])
             var length = data.length;;
             for ( i = 0 ; i < length ; i++){
                 list += `<tr>`;
