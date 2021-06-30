@@ -1,12 +1,15 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var qs = require('querystring');
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const qs = require('querystring');
+
+const template = require('./view/user');
 
 app.use(express.json())
 app.use(bodyParser.urlencoded())
 
-const mysql = require('mysql')
+const mysql = require('mysql');
+const { ESRCH } = require('constants');
 const db = mysql.createConnection({
   host:'localhost',
   user:'root',
@@ -18,6 +21,7 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + "/view/index.html")
 });
 
+
 app.get('/charge', function (req, res) {
   res.sendFile(__dirname + "/view/charge.html")
 });
@@ -27,8 +31,18 @@ app.post('/charge', function (req, res) {
   res.sendFile(__dirname + "/view/charge.html")
 });
 
+
 app.get('/user', function (req, res) {
-  res.sendFile(__dirname + "/view/user.html")
+  db.query(`SELECT * FROM user_info`, (err, results) => {
+    if(err) throw err;
+    else {
+      console.log(results);
+      var user_list = template.user_list(results)
+      var html = template.HTML(user_list);
+      res.write(html);
+    res.end();
+    }
+  });
 });
 
 app.post('/new_user', function (req, res) {
@@ -39,9 +53,6 @@ app.post('/new_user', function (req, res) {
   res.redirect('/user');
 });
 
-// app.get('/*', function (req, res) {
-//   res.send('404 Error');
-// });
 
 app.listen(3000, function () {
   console.log('Server listening on port 3000!');
