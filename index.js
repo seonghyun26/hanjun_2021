@@ -82,10 +82,9 @@ app.get('/test', function (req, res) {
 app.get('/filetest', function (req, res) {
   fs.readFile(__dirname + '/view/charge.html', 'utf8', (err, data) => {
     if (err) throw err;
-    console.log(data);
+    // console.log(data);
     res.write(data)
   });
-  // res.redirect('/');
 });
 
 app.listen(3000, function () {
