@@ -1,9 +1,14 @@
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
-const qs = require('querystring');
 
-const template = require('./view/user');
+const request = require('request');
+const convert = require('xml-js');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+
+const user_template = require('./view/user');
+
+const serviceKey = 'Nzmbm6X06v%2BKFHEtWBn1LJG6XGCdRYGIFiEi%2BGl6BNfaS2C6ki3Hq%2FWXk5TlqTPfKjTTaWAcI%2FH%2F%2FS7BZ%2FtxNw%3D%3D';
 
 app.use(express.json())
 app.use(bodyParser.urlencoded())
@@ -37,8 +42,8 @@ app.get('/user', function (req, res) {
     if(err) throw err;
     else {
       console.log(results);
-      var user_list = template.user_list(results)
-      var html = template.HTML(user_list);
+      var user_list = user_template.user_list(results);
+      var html = user_template.HTML(user_list);
       res.write(html);
     res.end();
     }
@@ -53,6 +58,35 @@ app.post('/new_user', function (req, res) {
   res.redirect('/user');
 });
 
+
+app.get('/test', function (req, res) {
+  var url = 'https://openapi.kpx.or.kr/openapi/smp1hToday/getSmp1hToday';
+  var queryParams = '?' + encodeURIComponent('ServiceKey') + '=' + serviceKey;
+  queryParams += '&' + encodeURIComponent('areaCd') + '=' + encodeURIComponent('1');
+  queryParams += '&' + encodeURIComponent('tradeDay') + '=' + encodeURIComponent('20210701');
+
+  request({
+    url: url + queryParams,
+    method: 'GET'
+  }, function (error, response, body) {
+    console.log('Status', response.statusCode);
+    console.log('Headers', JSON.stringify(response.headers));
+    // console.log('Reponse received', body);
+    var xmlToJson = convert.xml2json(body, {compact: true, spaces: 2});
+    res.write(xmlToJson);
+    res.end();
+  });
+});
+
+
+app.get('/filetest', function (req, res) {
+  fs.readFile(__dirname + '/view/charge.html', 'utf8', (err, data) => {
+    if (err) throw err;
+    console.log(data);
+    res.write(data)
+  });
+  // res.redirect('/');
+});
 
 app.listen(3000, function () {
   console.log('Server listening on port 3000!');

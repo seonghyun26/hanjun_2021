@@ -1,6 +1,14 @@
+const fs = require('fs');
+
 module.exports = {
     // function that html for test page
     HTML:function(user_list){
+        fs.readFile(__dirname + '/user.html', 'utf8', (err, data) => {
+            if (err) throw err;
+            console.log("makr2");
+            console.log(data);
+            // return data;
+          });
         return `
         <!DOCTYPE html>
         <html>

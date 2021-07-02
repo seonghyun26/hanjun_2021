@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Users</title>
-  </head>
-  <body>
-    <button  onClick="location.href='./'">
-      Home
-    </button>
-    <h1> User </h1>
-    <form method="POST" action="/new_user">
-      ID : <input type="number" name="id">
-      <br>Name : <input type="text" name="name">
-      <br>Car : <input type="text" name="car">
-      <br>Battery : <input type="number" name="battery">
-      <br><input type="submit" value="add">
-    </form>
-    <br>
-    <h3>User Info</h3>
-  </body>
+    <head>
+        <title>Users</title>
+    </head>
+    <body>
+        <button  onClick="location.href='./'">
+        Home
+        </button>
+        <h1> User </h1>
+        <form method="POST" action="/new_user">
+        Name : <input type="text" name="name">
+        <br>Car : <input type="text" name="car">
+        <br>Battery : <input type="number" name="battery">
+        <br><input type="submit" value="add">
+        </form>
+        <br>
+        <h3>User Info</h3>
+        ${user_list}
+    </body>
 </html>
