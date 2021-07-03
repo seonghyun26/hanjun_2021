@@ -1,57 +1,35 @@
-const fs = require('fs');
+const express = require('express');
+const mysql = require('mysql');
+const path = require('path');
+const router = express.Router();
 
-module.exports = {
-    // function that html for test page
-    HTML:function(user_list){
-        // fs.readFile(__dirname + '/user.html', 'utf8', (err, data) => {
-        //     if (err) throw err;
-        //     console.log("makr2");
-        //     console.log(data);
-        //     // return data;
-        //   });
-        return `
-        <!DOCTYPE html>
-        <html>
-            <head>
-                <title>Users</title>
-            </head>
-            <body>
-                <button  onClick="location.href='./'">
-                Home
-                </button>
-                <h1> User </h1>
-                <form method="POST" action="/new_user">
-                Name : <input type="text" name="name">
-                <br>Car : <input type="text" name="car">
-                <br>Battery : <input type="number" name="battery">
-                <br><input type="submit" value="add">
-                </form>
-                <br>
-                <h3>User Info</h3>
-                ${user_list}
-            </body>
-        </html>
-        `;
-    },
+const db = mysql.createConnection({
+    host:'localhost',
+    user:'root',
+    password:'2021',
+    database:'ecosystem'
+});
+const user_template = require('./user_template.js');
 
-    // functino that makes up problem by data through read.js
-    user_list:function(data){
-        var list= '<table class="user-list" border="0">';
-        list += '<th>Name</th>';
-        list += '<th>Car</th>';
-        list += '<th>Battery</th>';
-        {
-            console.log(data);
-            var length = data.length;;
-            for ( i = 0 ; i < length ; i++){
-                list += `<tr>`;
-                list += `<td>${data[i].name}</td>`;
-                list += `<td>${data[i].car}</td>`;
-                list += `<td>${data[i].battery}</td>`;
-                list += `</tr>`;
-            }
+router.get('/', function (req, res) {
+    db.query(`SELECT * FROM user_info`, (err, results) => {
+        if(err) throw err;
+        else {
+            console.log(results);
+            var user_list = user_template.user_list(results);
+            var html = user_template.HTML(user_list);
+            res.write(html);
+        res.end();
         }
-        list += '</table>';
-        return list;
-    }
-}
+    });
+});
+  
+router.post('/new_user', function (req, res) {
+    db.query(`INSERT INTO user_info (name, car, battery) VALUES ('${req.body.name}', '${req.body.car}', '${req.body.battery}')`, (err, results) => {
+        if(err) throw err;
+        else console.log(results)
+    });
+    res.redirect('/');
+});
+
+module.exports = router;
