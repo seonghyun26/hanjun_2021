@@ -5,6 +5,7 @@ const convert = require('xml-js');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const mysql = require('mysql');
+const path = require('path');
 
 
 // const information
@@ -15,13 +16,14 @@ const serviceKey = 'Nzmbm6X06v%2BKFHEtWBn1LJG6XGCdRYGIFiEi%2BGl6BNfaS2C6ki3Hq%2F
 const app = express();
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use(express.static('view'));
-const chargeRouter = require('./view/charge.js');
-const userRouter = require('./view/user.js');
+// app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
+const chargeRouter = require('./public/charge.js');
+const userRouter = require('./public/user.js');
 
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + "/index.html")
+  res.sendFile("index.html");
 });
 app.use("/charge", chargeRouter);
 app.use("/user", userRouter);
@@ -47,7 +49,7 @@ app.get('/test', function (req, res) {
 });
 
 app.get('/filetest', function (req, res) {
-  fs.readFile(__dirname + '/view/charge.html', 'utf8', (err, data) => {
+  fs.readFile(__dirname + '/public/charge.html', 'utf8', (err, data) => {
     if (err) throw err;
     // console.log(data);
     res.write(data);
