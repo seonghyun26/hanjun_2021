@@ -2,12 +2,6 @@ const fs = require('fs');
 
 module.exports = {
     HTML:function(user_list){
-        // fs.readFile(__dirname + '/user.html', 'utf8', (err, data) => {
-        //     if (err) throw err;
-        //     console.log("makr2");
-        //     console.log(data);
-        //     // return data;
-        //   });
         return `
         <!DOCTYPE html>
         <html>
@@ -19,11 +13,11 @@ module.exports = {
                 Home
                 </button>
                 <h1> User </h1>
-                <form method="POST" action="/new_user">
-                Name : <input type="text" name="name">
-                <br>Car : <input type="text" name="car">
-                <br>Battery : <input type="number" name="battery">
-                <br><input type="submit" value="add">
+                <form method="POST" action="/user/new_user">
+                    Name : <input type="text" name="name">
+                    <br>Car : <input type="text" name="car">
+                    <br>Battery : <input type="number" name="battery">
+                    <br><input type="submit" value="add">
                 </form>
                 <br>
                 <h3>User Info</h3>
