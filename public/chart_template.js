@@ -5,46 +5,70 @@ module.exports = {
       <html lang="EN">
         <head>
           <meta charset="utf-8">
-          <title>Daily SMp</title>
+          <title>Daily SMP</title>
         </head>
-        <body>
-            <h1>Daily SMP Chart</h1>
-            <button  onClick="location.href='./'">
-              Home
-            </button>
-            <br><br>
-            
-            <div>
-              <canvas id="myChart" responsive="true" style="position: relative; height:40vh; width:80vw"></canvas>
-            </div>
+        <body align="center">
+          <button  onClick="location.href='./'">
+            Home
+          </button>  
+          <h1>Daily SMP Chart</h1>
 
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script>
-            const labels = [
-              ${label}
-            ];
+          <div>
+            <canvas id="myChart" responsive="true" style="position: relative; height:40vh; width:80vw"></canvas>
+          </div>
+
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+          <script>
+          const labels = [
+            ${label}
+          ];
+        
+          const data = {
+              labels: labels,
+              datasets: [{
+                label: '원(\₩)',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [${data}],
+                tension: 0.1
+              }]
+          };
           
-            const data = {
-                labels: labels,
-                datasets: [{
-                    label: '${date}',
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: [${data}],
-                }]
-            };
-            
-            const config = {
-                type: 'line',
-                data,
-                options: {}
-            };
-            
-            var myChart = new Chart(
-                document.getElementById('myChart'),
-                config
-            );
-            </script>
+          const options = {
+            plugins: {
+              title: {
+                display: true,
+                text: '${date} SMP',
+                font : {
+                  wight: 'bold',
+                  size: 20
+                }
+              }
+            },
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: "SMP PRICE",
+                  font : {
+                    size: 16
+                  }
+                }
+              }
+            }
+          }
+
+          const config = {
+              type: 'line',
+              data,
+              options
+          };
+          
+          var myChart = new Chart(
+              document.getElementById('myChart'),
+              config
+          );
+          </script>
         </body>
       </html>
     `;
