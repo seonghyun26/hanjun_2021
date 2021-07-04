@@ -23,7 +23,7 @@ const userRouter = require('./public/user.js');
 
 
 app.get('/', function (req, res) {
-  res.sendFile("index.html");
+  res.sendFile("/view/index.html");
 });
 app.use("/charge", chargeRouter);
 app.use("/user", userRouter);

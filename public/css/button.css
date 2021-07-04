@@ -20,7 +20,7 @@
 .button:hover {
     background-color: #89b0ae;
     box-shadow: 0px 15px 20px #89b0ae;
-    color: #ffd6ba;
+    color: #fff;
     border: 0.5px solid #ffd6ba;
     transform: translateY(-5px);
 }
