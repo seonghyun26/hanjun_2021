@@ -57,9 +57,9 @@ app.get('/test', function (req, res) {
   // res.sendFile(__dirname + '/public/chart.html');
 });
 
-app.get('/filetest', function (req, res) {
+app.get('/smpjson', function (req, res) {
   request({
-    url: url + queryParams,
+    url: URL + queryParams,
     method: 'GET'
   }, function (error, response, body) {
     // console.log('Status', response.statusCode);
