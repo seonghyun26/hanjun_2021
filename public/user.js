@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const user_template = require('./user_template.js');
-const db = require('../db/db_info.js');
+const user_template = require('./view/user_template.js');
+const db = require('../secure/db_info.js');
 const db_connection = db.info();
 
 router.get('/', function (req, res) {
