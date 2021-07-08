@@ -4,21 +4,17 @@ const convert = require('xml-js');
 const router = express.Router();
 
 const chart_template = require('./view/chart_template.js');
+const API = require('../secure/API.js');
 
 // const information
-const serviceKey = 'Nzmbm6X06v%2BKFHEtWBn1LJG6XGCdRYGIFiEi%2BGl6BNfaS2C6ki3Hq%2FWXk5TlqTPfKjTTaWAcI%2FH%2F%2FS7BZ%2FtxNw%3D%3D';
-const URL = 'https://openapi.kpx.or.kr/openapi/smp1hToday/getSmp1hToday';
-var queryParams = '?' + encodeURIComponent('ServiceKey') + '=' + serviceKey;
-queryParams += '&' + encodeURIComponent('areaCd') + '=' + encodeURIComponent('1');
-queryParams += '&' + encodeURIComponent('tradeDay') + '=' + encodeURIComponent('20210701');
 
 
 router.get('/', function (req, res) {
     request({
-        url: URL + queryParams,
+        url: API.URL() + API.query(),
         method: 'GET'
       }, function (error, response, body) {
-        // console.log('Status', response.statusCode);
+        console.log('Status', response.statusCode);
         // console.log('Headers', JSON.stringify(response.headers));
         var parsedJSON = JSON.parse(convert.xml2json(body, {compact: true, spaces: 2}));
         var todayDate = parsedJSON.response.body.items.item[0].tradeDay._text;
