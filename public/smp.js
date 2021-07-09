@@ -3,10 +3,9 @@ const request = require('request');
 const convert = require('xml-js');
 const router = express.Router();
 
+// template, information
 const chart_template = require('./view/chart_template.js');
 const API = require('../secure/API.js');
-
-// const information
 
 
 router.get('/', function (req, res) {
@@ -30,6 +29,19 @@ router.get('/', function (req, res) {
         res.write(html);
         res.end();
       });
+});
+
+router.get('/json', function (req, res) {
+  request({
+    url: API.URL() + API.query(),
+    method: 'GET'
+  }, function (error, response, body) {
+    // console.log('Status', response.statusCode);
+    // console.log('Headers', JSON.stringify(response.headers));
+    var xmlToJSON = convert.xml2json(body, {compact: true, spaces: 2});
+    res.write(xmlToJSON);
+    res.end();
+  });
 });
 
 
