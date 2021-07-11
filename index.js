@@ -12,15 +12,16 @@ app.use(express.static(__dirname + '/public'));
 
 const chargeRouter = require('./public/charge.js');
 const userRouter = require('./public/user.js');
-const smpRouter = require('./public/smp.js');
+const apiInfoRouter = require('./public/api.js');
 
-// App use
+// App
 app.get('/', function (req, res) {
   res.sendFile("index.html");
 });
+
 app.use("/charge", chargeRouter);
 app.use("/user", userRouter);
-app.use("/smp", smpRouter);
+app.use("/apiInfo", apiInfoRouter);
 
 
 app.listen(3000, function () {
