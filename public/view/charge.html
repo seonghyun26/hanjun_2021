@@ -17,27 +17,40 @@
     <form method="POST" action="/charge/battery">
       <div class="page">
         <label class="field field_v2">
-          <input class="field__input" name="id" placeholder="ex 1234">
+          <input class="field__input" name="id" type="text" placeholder="ex 1234">
           <span class="field__label-wrap">
             <span class="field__label">ID</span>
           </span>
         </label>
         <label class="field field_v2">
-          <input class="field__input" name="current_battery" placeholder="ex 30">
+          <input class="field__input" name="current_battery" type="number" placeholder="ex 30">
           <span class="field__label-wrap">
             <span class="field__label">Current Battery</span>
           </span>
         </label>    
         <label class="field field_v2">
-          <input class="field__input" name="goal_battery" placeholder="ex 90">
+          <input class="field__input" name="goal_battery" type="number" placeholder="ex 90">
           <span class="field__label-wrap">
             <span class="field__label">Goal Battery</span>
+          </span>
+        </label>
+        <label class="field field_v2">
+          <input class="field__input" name="exit_time" type="time" step="1800" placeholder="ex 09:00 (30분 단위)">
+          <span class="field__label-wrap">
+            <span class="field__label">Exit Time (By 30 Minutes)</span>
           </span>
         </label>
         <input class="add_button" type="submit" value="ADD">
       </div>
     </form>
-    
 
+    
+    
+    <script>
+      var today = new Date();
+      var hour = today.getHours();
+      var timeControl = document.querySelector('input[type="time"]');
+      timeControl.value = `${hour+9}:00`;
+    </script>
   </body>
 </html>

@@ -16,6 +16,7 @@ router.post('/battery', function (req, res) {
     console.log(req.body.id);
     console.log(req.body.current_battery);
     console.log(req.body.goal_battery);
+    console.log(req.body.exit_time);
     res.redirect('/charge');
 });
 
