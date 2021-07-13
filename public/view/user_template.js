@@ -16,23 +16,10 @@ module.exports = {
                 <button class="button" onClick="location.href='http://115.85.181.94:3000/'">
                     <img src="../image/home_icon.png" width="40px" height="40px" alt="Home">
                 </button>
-                <h1> User </h1>
+                <h2>User Status</h2>
 
-                <form method="POST" action="/user/new_user" align="center">
-                    <br>ID
-                    <input type="text" name="name">
-                    <br>Car
-                    <input type="text" name="car">
-                    <br>Current Battery
-                    <input type="number" name="battery">
-                    <br>Goal Battery
-                    <input type="number" name="battery">
-                    <br><br><input type="submit" value="ADD">
-                </form>
-
-                <br><br>
                 <hr color="#89b0ae" width="60%" size="4px" align="center">
-                <h2>User Info</h2>
+                
                 ${user_list}
             </body>
         </html>
