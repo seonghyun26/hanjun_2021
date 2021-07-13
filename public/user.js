@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const user_template = require('./view/user_template.js');
-const db = require('../secure/DB_info.js');
-const db_connection = db.info();
+const DB = require('../secure/DB_info.js');
+const db_connection = DB.info();
 
 router.get('/', function (req, res) {
     db_connection.query(`SELECT * FROM user_info`, (err, results) => {

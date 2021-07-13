@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 module.exports = {
     HTML:function(user_list){
         return `
@@ -16,10 +14,10 @@ module.exports = {
                 <button class="button" onClick="location.href='http://115.85.181.94:3000/'">
                     <img src="../image/home_icon.png" width="40px" height="40px" alt="Home">
                 </button>
-                <h2>User Status</h2>
 
-                <hr color="#89b0ae" width="60%" size="4px" align="center">
-                
+                <h2>User Status</h2>
+                <hr color="#89b0ae" width="40%" size="4px" align="center">
+                <br>
                 ${user_list}
             </body>
         </html>
@@ -32,7 +30,7 @@ module.exports = {
         list += '<th>Car</th>';
         list += '<th>Battery</th>';
         {
-            console.log(data);
+            // console.log(data);
             var length = data.length;;
             for ( i = 0 ; i < length ; i++){
                 list += `<tr>`;
