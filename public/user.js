@@ -6,7 +6,7 @@ const DB = require('../secure/DB_info.js');
 const db_connection = DB.info();
 
 router.get('/', function (req, res) {
-    db_connection.query(`SELECT * FROM user_info`, (err, results) => {
+    db_connection.query(`SELECT * FROM user_status`, (err, results) => {
         if(err) throw err;
         else {
             // console.log(results);

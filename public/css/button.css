@@ -13,8 +13,8 @@
     transition: all 0.2s ease 0s;
     cursor: pointer;
     outline: none;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .button:hover {

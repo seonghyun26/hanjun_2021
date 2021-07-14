@@ -28,7 +28,9 @@ module.exports = {
         var list= '<table class="user-list" border="0" align="center">';
         list += '<th>Name</th>';
         list += '<th>Car</th>';
-        list += '<th>Battery</th>';
+        list += '<th>Charge Type</th>';
+        list += '<th>Battery Size</th>';
+        list += '<th>Current Battery</th>';
         {
             // console.log(data);
             var length = data.length;;
@@ -36,7 +38,9 @@ module.exports = {
                 list += `<tr>`;
                 list += `<td>${data[i].name}</td>`;
                 list += `<td>${data[i].car}</td>`;
-                list += `<td>${data[i].battery}</td>`;
+                list += `<td>${data[i].charge_type}</td>`;
+                list += `<td>${data[i].battery_size}</td>`;
+                list += `<td>${data[i].current_estimated_battery}</td>`;
                 list += `</tr>`;
             }
         }
