@@ -9,13 +9,20 @@ const API = require('../secure/API_info.js');
 
 
 router.get('/', function (req, res) {
+  var today = new Date();
+  var hour = today.getHours();
+  var yearMonthDay = today.getFullYear().toString() + ("0" + (today.getMonth()+1)).slice(-2) + ("0" + today.getDate()).slice(-2);
+  if ( hour > 6 ) yearMonthDay += "06";
+  else if ( hour > 18 )  yearMonthDay += "18";
+  var weatherQueryParams = '&' + encodeURIComponent('time') + '=' + encodeURIComponent(yearMonthDay);
   request({
-    url: API.weatherURL() + API.weatherQuery(),
+    url: API.weatherURL() + API.weatherQuery() + weatherQueryParams,
     method: 'GET'
   }, function (error, response, body) {
     if( error ) {
-      var html = chart_template.HTML_weather();
-      res.write(html);
+      // var html = chart_template.HTML_weather();
+      // res.write(html);
+      res.write("asdf");
       res.end();
     }
     else {
@@ -33,7 +40,7 @@ router.get('/', function (req, res) {
         }
       }
       var html = chart_template.HTML_weather(
-        todayLabels, todayWeather, todayDate,
+        todayLabels, todayWeather, yearMonthDay, 
         Math.max.apply(null, todayWeather),
         Math.min.apply(null, todayWeather),
         Math.max.apply(null, todayWeather) - Math.min.apply(null, todayWeather)

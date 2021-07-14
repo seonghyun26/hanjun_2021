@@ -122,7 +122,7 @@ module.exports = {
             plugins: {
               title: {
                 display: true,
-                text: '${date[4]}${date[5]}월 ${date[6]}${date[7]}일 기준 체감 온도',
+                text: '${date[4]}${date[5]}월 ${date[6]}${date[7]}일 ${date[8]}${date[9]}시 기준 예상 체감 온도',
                 font : {
                   wight: 'bold',
                   size: 20
