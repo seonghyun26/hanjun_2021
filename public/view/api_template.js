@@ -10,7 +10,7 @@ module.exports = {
           <title>API Chart</title>
         </head>
         <body align="center">
-          <button class="button" onClick="location.href='./'">
+          <button class="button" onClick="location.href='http://115.85.181.94:3000/'">
             Home
           </button>
 
@@ -19,6 +19,10 @@ module.exports = {
           <div>
             <canvas id="smpChart" responsive="true" style="position: relative; height:40vh; width:80vw"></canvas>
           </div>
+
+          <button class="button" onClick="location.href='http://115.85.181.94:3000/apiInfo'">
+            Weather
+          </button>
 
           <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
           <script>
@@ -41,7 +45,7 @@ module.exports = {
             plugins: {
               title: {
                 display: true,
-                text: '${date} SMP',
+                text: '${date[0]}${date[1]}${date[2]}${date[3]}년 ${date[4]}${date[5]}월 ${date[6]}${date[7]}일 SMP',
                 font : {
                   wight: 'bold',
                   size: 20
@@ -91,7 +95,7 @@ module.exports = {
           <title>API Chart</title>
         </head>
         <body align="center">
-          <button class="button" onClick="location.href='./'">
+          <button class="button" onClick="location.href='http://115.85.181.94:3000/'">
             Home
           </button>
 
@@ -100,6 +104,10 @@ module.exports = {
           <div>
             <canvas id="smpChart" responsive="true" style="position: relative; height:40vh; width:80vw"></canvas>
           </div>
+
+          <button class="button" onClick="location.href='http://115.85.181.94:3000/apiInfo/smp'">
+            SMP Chart
+          </button>
 
           <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
           <script>
