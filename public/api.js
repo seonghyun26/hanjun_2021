@@ -12,8 +12,9 @@ router.get('/', function (req, res) {
   var today = new Date();
   var hour = today.getHours();
   var yearMonthDay = today.getFullYear().toString() + ("0" + (today.getMonth()+1)).slice(-2) + ("0" + today.getDate()).slice(-2);
-  if ( hour > 6 ) yearMonthDay += "06";
-  else if ( hour > 18 )  yearMonthDay += "18";
+  console.log(hour);
+  if ( hour >= 6 && hour < 18 ) yearMonthDay += "06";
+  else if ( hour >= 18 )  yearMonthDay += "18";
   var weatherQueryParams = '&' + encodeURIComponent('time') + '=' + encodeURIComponent(yearMonthDay);
   request({
     url: API.weatherURL() + API.weatherQuery() + weatherQueryParams,
@@ -29,7 +30,6 @@ router.get('/', function (req, res) {
       console.log('Status', response.statusCode);
       var parsedJSON = JSON.parse(response.body);
       var weatherInfo = parsedJSON.response.body.items.item[0];
-      var todayDate = weatherInfo.date;
       var todayLabels = [];
       var todayWeather = [];
       for( i = 1 ; i < 22; i++) {
