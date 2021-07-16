@@ -10,7 +10,7 @@ smpQueryParams += '&' + encodeURIComponent('areaCd') + '=' + encodeURIComponent(
 var weatherQueryParams = '?' + encodeURIComponent('ServiceKey') + '=' + weatherServiceKey;
 weatherQueryParams += '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON');
 weatherQueryParams += '&' + encodeURIComponent('areaNo') + '=' + encodeURIComponent('1100000000');
-weatherQueryParams += '&' + encodeURIComponent('requestCode') + '=' + encodeURIComponent('A41');
+weatherQueryParams += '&' + encodeURIComponent('requestCode') + '=' + encodeURIComponent('A47');
 
 
 module.exports = {
