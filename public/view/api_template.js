@@ -7,6 +7,8 @@ module.exports = {
           <meta charset="utf-8">
           <link type="text/css" rel="stylesheet" href="/css/main.css" />
           <link type="text/css" rel="stylesheet" href="/css/button.css" />
+          <link rel="shortcut icon" href="/image/link.png" type="image/x-icon">
+          <link rel="icon" href="/image/link.png" type="image/x-icon">
           <title>API Chart</title>
         </head>
         <body align="center">
@@ -92,6 +94,8 @@ module.exports = {
           <meta charset="utf-8">
           <link type="text/css" rel="stylesheet" href="/css/main.css" />
           <link type="text/css" rel="stylesheet" href="/css/button.css" />
+          <link rel="shortcut icon" href="/image/link.png" type="image/x-icon">
+          <link rel="icon" href="/image/link.png" type="image/x-icon">
           <title>API Chart</title>
         </head>
         <body align="center">

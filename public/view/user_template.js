@@ -9,6 +9,8 @@ module.exports = {
                 <link type="text/css" rel="stylesheet" href="/css/main.css" />
                 <link type="text/css" rel="stylesheet" href="/css/button.css" />
                 <link type="text/css" rel="stylesheet" href="/css/table.css" />
+                <link rel="shortcut icon" href="/image/user-list.png" type="image/x-icon">
+                <link rel="icon" href="/image/user-list.png" type="image/x-icon">
             </head>
             <body>
                 <button class="button" onClick="location.href='http://115.85.181.94:3000/'">
