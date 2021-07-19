@@ -14,7 +14,7 @@ router.get('/', function (req, res) {
   var yearMonthDay = today.getFullYear().toString() + ("0" + (today.getMonth()+1)).slice(-2)
   if ( hour < 6 )   {
     today.setDate(today.getDate() - 1 );
-    yearMonthDay = today.getFullYear().toString() + ("0" + (today.getMonth()+1)).slice(-2) + ("0" + today.getDate()).slice(-2) + "18";
+    yearMonthDay +=  ("0" + today.getDate()).slice(-2) + "18";
   }
   else if ( hour < 18 )   yearMonthDay +=  ("0" + today.getDate()).slice(-2) + "06";
   else yearMonthDay += ("0" + today.getDate()).slice(-2) + "18";
