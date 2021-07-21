@@ -17,26 +17,26 @@ module.exports = {
     
         <h2> Arudino Test Page </h2>
 
-        <button class="button" onClick="location.href='/test/A/0'">
+        <button class="button" onClick="location.href='/arduino/A/0'">
           A OFF
         </button>
-        <button class="button" onClick="location.href='/test/A/1'">
+        <button class="button" onClick="location.href='/arduino/A/1'">
           A ON
         </button>
         <br><br>
 
-        <button class="button" onClick="location.href='/test/B/0'">
+        <button class="button" onClick="location.href='/arduino/B/0'">
           B OFF
         </button>
-        <button class="button" onClick="location.href='/test/B/1'">
+        <button class="button" onClick="location.href='/arduino/B/1'">
           B ON
         </button>
         <br><br>
 
-        <button class="button" onClick="location.href='/test/C/0'">
+        <button class="button" onClick="location.href='/arduino/C/0'">
           C OFF
         </button>
-        <button class="button" onClick="location.href='/test/C/1'">
+        <button class="button" onClick="location.href='/arduino/C/1'">
           C ON
         </button>
     

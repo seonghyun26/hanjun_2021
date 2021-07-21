@@ -4,7 +4,7 @@ const router = express.Router();
 
 const URL = 'http://hyungu.asuscomm.com/';
 
-const test_template = require('./view/test_template.js');
+const test_template = require('./view/arduino_template.js');
 
 router.get('/', function (req, res) {
     var html = test_template.HTML();
