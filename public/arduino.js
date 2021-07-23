@@ -1,15 +1,35 @@
 const express = require('express');
+const cherrio = require('cherrio');
 const request = require('request');
 const router = express.Router();
 
 const URL = 'http://hyungu.asuscomm.com/';
 
 const test_template = require('./view/arduino_template.js');
-
 router.get('/', function (req, res) {
-    var html = test_template.HTML();
-    res.write(html);
-    res.end();
+    request({
+        url: URL
+    }, function (error, response, body) {
+        if (error) throw error;
+        else {
+            var pasrsedJSON = response.body;
+            console.log(pasrsedJSON);
+
+            // Test Code Start
+
+            var resultArr = [];
+            const $ = cherrio.load(response.body);
+            
+            
+
+
+            // Test Code End
+
+            var html = test_template.HTML();
+            res.write(html);
+            res.end();
+        }
+    });
 });
 
 router.get('/:number/:on_off', function (req, res) {
@@ -20,14 +40,8 @@ router.get('/:number/:on_off', function (req, res) {
         url: URL + params
     }, function (error, response, body) {
         if (error) throw error;
-        else {
-            // console.log("type of response : " + typeof(response));
-            var pasrsedJSON = response.body;
-            console.log(pasrsedJSON);
-            res.redirect('/test');
-        }
+        else res.redirect('/test');
     });
-    
 });
 
 module.exports = router;
