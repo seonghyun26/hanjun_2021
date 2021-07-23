@@ -6,3 +6,5 @@ package-lock.json
 *.code-workspace
 
 ignore
+
+secure
