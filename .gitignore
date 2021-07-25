@@ -1,10 +1,8 @@
 node_modules
+secure
+
 package-lock.json
 
 *.log
 
 *.code-workspace
-
-ignore
-
-secure

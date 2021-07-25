@@ -12,7 +12,7 @@ var on = request({
     }
     else {
       console.log(response);
-    //   var parsedJSON = JSON.parse(response);
-    //   console.log(parsedJSON);
+      var parsedJSON = JSON.parse(response);
+      console.log(parsedJSON);
     }
 });
