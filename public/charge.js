@@ -13,7 +13,7 @@ const QUERY_NEW_BATTERY = function (par1, par2, par3, par4, par5) {
         )
     `
 };
-const QUERY_NEW_PRICE = function (par1, par2, par3, par4, par5) {
+const QUERY_NEW_PRICE = function (par1, par2, par3, par4) {
     return `
     INSERT INTO charge_by_price (name, car, current_battery, price) VALUES
         (
