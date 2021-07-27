@@ -1,0 +1,36 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "hanjun server",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "chart.js": "^3.4.0",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "node-schedule": "^2.0.0",
+    "popups": "^1.1.3",
+    "request": "^2.88.2",
+    "xml-js": "^1.6.11",
+    "xmlhttprequest": "^1.8.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seonghyun26/hanjun_2021.git"
+  },
+  "keywords": [
+    "hanjun"
+  ],
+  "author": "eddy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seonghyun26/hanjun_2021/issues"
+  },
+  "homepage": "https://github.com/seonghyun26/hanjun_2021#readme"
+}
