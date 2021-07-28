@@ -19,26 +19,24 @@ module.exports = {
     
         <h2> Arudino Control Page </h2>
 
-        <b class="title" id="A">OFF</b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <b class="title">A</b>&nbsp&nbsp
+        <b class="title" id="A">OFF</b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <label class="switch">
           <input type="checkbox" id="BtnA">
           <span class="slider round"></span>
         </label>
-        
         <br><br>
 
-        <b class="title" id="B">OFF</b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <b class="title">B</b>&nbsp&nbsp
+        <b class="title" id="B">OFF</b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <label class="switch">
           <input type="checkbox" id="BtnB">
           <span class="slider round"></span>
-        </label>
-        
+        </label>        
         <br><br>
 
-        <b class="title" id="C">OFF</b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <b class="title">C</b>&nbsp&nbsp
+        <b class="title" id="C">OFF</b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <label class="switch">
           <input type="checkbox" id="BtnC">
           <span class="slider round"></span>

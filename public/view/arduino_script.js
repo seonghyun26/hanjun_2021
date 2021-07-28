@@ -18,11 +18,10 @@ function changeValue(num) {
     var bntChecked = btn[num].checked;
     console.log(bntChecked);
 
-    // status[num].innerHTML = bntChecked ? "ON" : "OFF";
-    setCookie(char[num], btn[num].checked, 1);
+    status[num].innerHTML = bntChecked ? "ON" : "OFF";
     console.log(`${char[num]}, ${btn[num].checked}`);
 
-    window.location.assign(`http://115.85.181.94:3000/arduino/${char[num]}/${btn[num].checked ? 1 : 0}`);
+    // window.location.assign(`http://115.85.181.94:3000/arduino/${char[num]}/${btn[num].checked ? 1 : 0}`);
 }
 
 const setCookie = function(name, value, exp) {
@@ -31,21 +30,31 @@ const setCookie = function(name, value, exp) {
     document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
 };
 
-const getCookie = function(name) {
-    var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-    return value? value[2] : null;
-};
+const getCookie = (key) => {
+    let cookieKey = key + "="; 
+    let result = "";
+    const cookieArr = document.cookie.split(";");
+    
+    for(let i = 0; i < cookieArr.length; i++) {
+        if(cookieArr[i][0] === " ") {
+            cookieArr[i] = cookieArr[i].substring(1);
+        }
+        
+        if(cookieArr[i].indexOf(cookieKey) === 0) {
+            result = cookieArr[i].slice(cookieKey.length, cookieArr[i].length);
+            return result;
+        }
+    }
+    return result;
+}
 
-const initValue = function() {
+var init = () => {
     // Get Value from Arduino Server
     console.log("init");
     for ( i = 0 ; i < 3; i++ ){
-        var savedStatus = getCookie(char[i]);
-        console.log(`${i}th stats: ${savedStatus}`);
-        status[i].innerHTML = savedStatus ? "ON" : "OFF";
-        btn[i].checked = savedStatus;
-        console.log(btn[i].checked);
+        if ( status[i].innerHTML="OFF" )   btn[i].checked = false;
+        else btn[i].checked = true;
     }
 }
 
-initValue();
+init();
