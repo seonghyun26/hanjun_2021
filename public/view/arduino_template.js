@@ -1,5 +1,5 @@
 module.exports = {
-  HTML:function(a, b, c){
+  HTML:function(status, a, b, c){
     return `
     <!DOCTYPE html>
     <html lang="EN">
@@ -19,60 +19,38 @@ module.exports = {
     
         <h2> Arudino Control Page </h2>
 
-        <b class="title">A</b>&nbsp&nbsp
-        <b class="title" id="A">OFF</b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-        <label class="switch">
-          <input type="checkbox" id="BtnA">
-          <span class="slider round"></span>
-        </label>
-        <br><br>
+        ${status}
+        ${a}
+        ${b}
+        ${c}
 
-        <b class="title">B</b>&nbsp&nbsp
-        <b class="title" id="B">OFF</b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-        <label class="switch">
-          <input type="checkbox" id="BtnB">
-          <span class="slider round"></span>
-        </label>        
-        <br><br>
-
-        <b class="title">C</b>&nbsp&nbsp
-        <b class="title" id="C">OFF</b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-        <label class="switch">
-          <input type="checkbox" id="BtnC">
-          <span class="slider round"></span>
-        </label>
-        
-        <br><br>
         
         <br>
-        
-
-
-        <button class="button_small" onClick="location.href='/arduino/A/1'">
-          ON
-        </button>
-        <button class="button_small" onClick="location.href='/arduino/A/0'">
-          OFF
-        </button>
+        <button class="button_small" onClick="location.href='/arduino/A/1'">ON</button>
+        <button class="button_small" onClick="location.href='/arduino/A/0'">OFF</button>
         <br>
-        <button class="button_small" onClick="location.href='/arduino/B/1'">
-          ON
-        </button>
-        <button class="button_small" onClick="location.href='/arduino/B/0'">
-          OFF
-        </button>
+        <button class="button_small" onClick="location.href='/arduino/B/1'">ON</button>
+        <button class="button_small" onClick="location.href='/arduino/B/0'">OFF</button>
         <br>
-        <button class="button_small" onClick="location.href='/arduino/C/1'">
-          ON
-        </button>
-        <button class="button_small" onClick="location.href='/arduino/C/0'">
-          OFF
-        </button>
+        <button class="button_small" onClick="location.href='/arduino/C/1'">ON</button>
+        <button class="button_small" onClick="location.href='/arduino/C/0'">OFF</button>
 
         <script type="text/javascript" src="/view/arduino_script.js"></script>
 
       </body>
     </html>
     `
-  }   
+  },
+  
+  button_format: function(name, status) {
+    return `
+      <b class="title">${name}</b>&nbsp&nbsp
+      <b class="title" id="${name}">${status}</b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+      <label class="switch">
+        <input type="checkbox" id="Btn${name}">
+        <span class="slider round"></span>
+      </label>
+      <br><br>
+    `
+  }
 }
