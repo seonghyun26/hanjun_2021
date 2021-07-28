@@ -1,5 +1,5 @@
 module.exports = {
-  HTML:function(label, data, date){
+  HTML_SMP:function(label, data, date){
     return `
     <!DOCTYPE HTML>
       <html lang="EN">
@@ -175,9 +175,5 @@ module.exports = {
         </body>
       </html>
     `;
-  },
-
-  API_error:function(){
-    
   }
 }

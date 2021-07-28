@@ -39,9 +39,7 @@ module.exports = {
         <button class="button" onClick="location.href='/arduino/C/1'">
           C ON
         </button>
-    
-    
-    
+        
       </body>
     </html>
     `

@@ -21,7 +21,6 @@ router.get('/:number/:on_off', function (req, res) {
     }, function (error, response, body) {
         if (error) throw error;
         else {
-            // console.log("type of response : " + typeof(response));
             var pasrsedJSON = response.body;
             console.log(pasrsedJSON);
             res.redirect('/test');
