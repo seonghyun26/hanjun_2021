@@ -18,19 +18,11 @@ function changeValue(num) {
     var bntChecked = btn[num].checked;
     console.log(bntChecked);
 
-    status[num].innerHTML = bntChecked ? "ON" : "OFF";
+    // status[num].innerHTML = bntChecked ? "ON" : "OFF";
     setCookie(char[num], btn[num].checked, 1);
+    console.log(`${char[num]}, ${btn[num].checked}`);
 
     window.location.assign(`http://115.85.181.94:3000/arduino/${char[num]}/${btn[num].checked ? 1 : 0}`);
-}
-
-const initValue = function() {
-    // Get Value from Arduino Server
-    for ( i = 0 ; i < 3; i++ ){
-        var savedStatus = getCookie(char[i]);
-        status[i].innerHTML = savedStatus ? "ON" : "OFF";
-        btn[i].checked = savedStatus;
-    }
 }
 
 const setCookie = function(name, value, exp) {
@@ -43,5 +35,17 @@ const getCookie = function(name) {
     var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
     return value? value[2] : null;
 };
+
+const initValue = function() {
+    // Get Value from Arduino Server
+    console.log("init");
+    for ( i = 0 ; i < 3; i++ ){
+        var savedStatus = getCookie(char[i]);
+        console.log(`${i}th stats: ${savedStatus}`);
+        status[i].innerHTML = savedStatus ? "ON" : "OFF";
+        btn[i].checked = savedStatus;
+        console.log(btn[i].checked);
+    }
+}
 
 initValue();
