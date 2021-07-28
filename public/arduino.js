@@ -16,17 +16,21 @@ router.get('/:number/:on_off', function (req, res) {
     const query_number = req.params.number;
     const query_on_off = req.params.on_off;
     const params = encodeURIComponent(query_number) + '/' + encodeURIComponent(query_on_off) + '/';
-    request({
-        url: URL + params
-    }, function (error, response, body) {
-        if (error) throw error;
-        else {
-            var pasrsedJSON = response.body;
-            console.log(pasrsedJSON);
-            res.redirect('/test');
-        }
-    });
-    
+    // request({
+    //     url: URL + params
+    // }, function (error, response, body) {
+    //     if (error) throw error;
+    //     else {
+    //         var pasrsedJSON = response.body;
+    //         console.log(pasrsedJSON);
+    //         res.redirect('/test');
+    //     }
+    // });
+    // console.log(query_number);
+    // console.log(query_on_off);
+    // res.write("asdf");
+    // res.end();
+    res.redirect('/arduino');
 });
 
 module.exports = router;
