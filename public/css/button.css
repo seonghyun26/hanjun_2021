@@ -36,6 +36,25 @@
     margin-bottom: 10px;
 }
 
+.button_small {
+    width: 120px;
+    height: 60px;
+    font-family: sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-weight: bold;
+    color: #000;
+    background-color: #bee3db;
+    border: none;
+    border-radius: 40px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease 0s;
+    cursor: pointer;
+    outline: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .button:hover {
     background-color: #89b0ae;
     box-shadow: 0px 15px 20px #89b0ae;
