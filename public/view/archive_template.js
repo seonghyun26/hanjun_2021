@@ -88,5 +88,4 @@ module.exports = {
         list += '</table><br><br>';
         return list;
     }
-
 }

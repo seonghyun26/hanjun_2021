@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "chart.js": "^3.4.0",
+    "cheerio": "^1.0.0-rc.10",
     "express": "^4.17.1",
+    "express-session": "^1.17.2",
     "mysql": "^2.18.1",
     "node-schedule": "^2.0.0",
     "popups": "^1.1.3",
@@ -16,7 +18,6 @@
     "xml-js": "^1.6.11",
     "xmlhttprequest": "^1.8.0"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

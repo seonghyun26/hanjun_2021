@@ -58,14 +58,12 @@
         <input class="add_button" type="submit" value="ADD">
       </div>
     </form>
-
-    
     
     <script>
       var today = new Date();
       var hour = today.getHours();
       var timeControl = document.querySelector('input[type="time"]');
-      timeControl.value = `${hour+9}:00`;
+      timeControl.value = `${("0"+(hour+9)).slice(-2)}:00`;
     </script>
   </body>
 </html>
