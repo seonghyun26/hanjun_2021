@@ -18,6 +18,7 @@ const arduinoRouter = require('./public/arduino.js');
 app.get('/', function (req, res) {
   res.sendFile("index.html");
 });
+
 app.use("/charge", chargeRouter);
 app.use("/user", userRouter);
 app.use("/apiInfo", apiInfoRouter);

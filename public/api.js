@@ -4,7 +4,7 @@ const convert = require('xml-js');
 const router = express.Router();
 
 // template, information
-const chart_template = require('./view/api_template.js');
+const chart_template = require('./template/api_template.js');
 const API = require('../secure/API_info.js');
 
 

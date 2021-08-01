@@ -6,7 +6,7 @@ const router = express.Router();
 const URL = 'http://hyungu.asuscomm.com/';
 const URL_test='http://115.85.181.94:3000/arduino';
 
-const template = require('./view/arduino_template.js');
+const template = require('./template/arduino_template.js');
 
 // Send a request to Arduino server to get current status
 router.get('/', function (req, res) {

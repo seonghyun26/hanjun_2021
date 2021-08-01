@@ -26,15 +26,15 @@
     <form method="POST" action="/charge/battery_charge">
       <div class="page">
         <label class="field field_v2">
-          <input class="field__input" name="name" type="text" placeholder="ex 1234" required>
+          <input class="field__input" name="name" type="text" maxlength="20" placeholder="ex 1234" required>
           <span class="field__label-wrap">
             <span class="field__label">Name</span>
           </span>
         </label>
         <label class="field field_v2">
-          <input class="field__input" name="car" type="text" placeholder="ex tesla" required>
+          <input class="field__input" name="charger" type="number" min="1" max="3" maxlength="20" placeholder="ex tesla" required>
           <span class="field__label-wrap">
-            <span class="field__label">Car</span>
+            <span class="field__label">Charger 1~3</span>
           </span>
         </label>    
         <label class="field field_v2">
@@ -63,7 +63,7 @@
       var today = new Date();
       var hour = today.getHours();
       var timeControl = document.querySelector('input[type="time"]');
-      timeControl.value = `${("0"+(hour+9)).slice(-2)}:00`;
+      timeControl.value = `${("0" + ((hour+9)%24)).slice(-2)}:00`;
     </script>
   </body>
 </html>
