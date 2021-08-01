@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const archive_template = require('./view/archive_template.js');
+const archive_template = require('./template/archive_template.js');
 const DB = require('../secure/DB_info.js');
 const db_connection = DB.info();
 
