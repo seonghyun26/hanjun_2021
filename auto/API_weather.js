@@ -6,14 +6,15 @@ const API = require('../secure/API_info.js');
 const DB = require('../secure/DB_info');
 const db_connection = DB.info();
 
-const QUERY_NEWSMP = function (date, data) {
+const QUERY_NEWSMP = function (month, day, data) {
     return `
         INSERT INTO history_smp (
-            date, h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11,
+            month, day, h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11,
             h12, h13, h14, h15, h16, h17, h18, h19, h20, h21, h22, h23
         )
         VALUES (
-            ${date},
+            ${month},
+            ${day},
             ${data[0]},
             ${data[1]},
             ${data[2]},
@@ -42,36 +43,27 @@ const QUERY_NEWSMP = function (date, data) {
     `;
 }
 
-// every 00/06/12/18 : 05
-const api_smp = schedule.scheduleJob('0 5 */6 * * *', function(){
-    // API smp
+// every 00/06/12/18 : 00
+// const api_weather = schedule.scheduleJob('0 0 */6 * * *', function(){
+const api_weather = schedule.scheduleJob('* * * * * *', function(){
     const today = new Date();
-    const year = today.getFullYear();
     const month = ("0" + (1 + today.getMonth())).slice(-2);
     const day = ("0" + today.getDate()).slice(-2);
-    db_connection.query(`SELECT * FROM history_smp WHERE date="${year+month+day}"`, (err, results) => {
+    db_connection.query(`SELECT * FROM history_smp WHERE month="${month}" AND day="${day}"`, (err, results) => {
         if(err) throw err;
         else {
             if ( results.length == 0) {
                 request({
-                    url: API.smpURL() + API.smpQuery(),
+                    url: API.weatherURL() + API.weatherQuery(),
                     method: 'GET'
                 }, function (error, response, body) {
                     if (error) throw error;
                     else {
                         console.log('Status', response.statusCode);
-                        var parsedJSON = JSON.parse(convert.xml2json(body, {compact: true, spaces: 2}));
-                        var todayDate = parsedJSON.response.body.items.item[0].tradeDay._text;
-                        var todayData = parsedJSON.response.body.items.item;
-                        var todayValues = [];
-                        for( i = 0 ; i < todayData.length ; i++){
-                            todayValues.push(todayData[i].smp._text);
-                        }
-                        console.log(todayDate);
-                        console.log(todayValues);
-                        db_connection.query(QUERY_NEWSMP(todayDate, todayValues), (err, results) => {
-                            if(err) throw err;
-                        });
+                        
+                        // db_connection.query(QUERY_NEWSMP(todayDate, todayValues), (err, results) => {
+                        //     if(err) throw err;
+                        // });
                         
                     }
                 });
@@ -82,4 +74,4 @@ const api_smp = schedule.scheduleJob('0 5 */6 * * *', function(){
     
 });
 
-// api_smp.cancel();
+// api_weather.cancel();

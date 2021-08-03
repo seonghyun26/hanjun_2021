@@ -35,13 +35,11 @@ const QUERY_USERLIST = `
     );
 `;
 
-
 // ** How to use **
 // - * : every value
 // - /n : do every n
 // 6 values : second, minute, hour, day of month, month, dae of week
 // To stop : test.cancel();
-
 
 // every 16:00
 const predict_data = schedule.scheduleJob('0 0 16 * * *', function(){
