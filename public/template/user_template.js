@@ -31,7 +31,7 @@ module.exports = {
         list += '<th>Name</th>';
         list += '<th>Charger</th>';
         list += '<th>Charge Type</th>';
-        list += '<th>Start Battery</th>';
+        list += '<th>Current Battery</th>';
         list += '<th>Goal Battery/price</th>';
         {
             // console.log(data);
@@ -41,7 +41,7 @@ module.exports = {
                 list += `<td>${data[i].name}</td>`;
                 list += `<td>${data[i].charger}</td>`;
                 list += `<td>${data[i].charge_type}</td>`;
-                list += `<td>${data[i].start_battery}</td>`;
+                list += `<td>${data[i].current_battery}</td>`;
                 list += `<td>${data[i].goal_battery_or_price}</td>`;
                 list += `</tr>`;
             }

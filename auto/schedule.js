@@ -27,7 +27,12 @@ const QUERY_PREDICT = function ( data ){
     `
 };
 const QUERY_USERLIST = `
-    SELECT * FROM user_status;
+    SELECT * FROM user_status
+    WHERE  (
+        charge_type="battery" AND goal_battery_or_price > current_battery
+    ) OR (
+        charge_type="price" AND 75 > current_battery
+    );
 `;
 
 
@@ -69,12 +74,12 @@ const charge = schedule.scheduleJob('* * * * * *', function(){
                     if ( type == 'battery' ){
                         // find info by searching charge_by_battery
                         // IF current_battery < goal_battery
-                        // THEN charge
+                        // THEN charge, update current_battery + 25
                     } else if ( type == 'price' ) {
                         const name = results[i].name;
                         // find info by searching charge_by_price
                         // IF current price < user price
-                        // THEN charge
+                        // THEN charge, update current_battery + 25
                     }
                 }
             }

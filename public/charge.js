@@ -21,11 +21,11 @@ const QUERY_NEW_PRICE = function (par1, par2, par3, par4) {
         )
     `
 };
-const QUERY_NEW_USER_PRICE = function (par1, par2, type, par3, par4) {
+const QUERY_NEW_USER_PRICE = function (par1, par2, type, par3, par4, par5) {
     return `
-        INSERT INTO user_status (name, charger, charge_type, start_battery, goal_battery_or_price) VALUES
+        INSERT INTO user_status (name, charger, charge_type, start_battery, goal_battery_or_price, current_battery) VALUES
         (
-            '${par1}', '${par2}', '${type}', '${par3}', '${par4}'
+            '${par1}', '${par2}', '${type}', '${par3}', '${par4}', '${par5}'
         )
     `
 };
@@ -47,7 +47,10 @@ router.post('/battery_charge', function (req, res) {
         ), (err, results) => {
             if(err) throw err;
             else  db_connection.query(
-                QUERY_NEW_USER_PRICE(req.body.name, req.body.charger, 'battery', req.body.current_battery, req.body.goal_battery), (err, results ) => {
+                QUERY_NEW_USER_PRICE(
+                    req.body.name, req.body.charger, 'battery', req.body.current_battery,
+                    req.body.goal_battery, req.body.current_battery
+                ), (err, results ) => {
                     if(err) throw err;
                 }
             );
@@ -64,7 +67,9 @@ router.post('/price_charge', function (req, res) {
             if(err) throw err;
             else db_connection.query(
                 QUERY_NEW_USER_PRICE(
-                    req.body.name, req.body.charger, 'price', req.body.current_battery, req.body.price), (err, results ) => {
+                    req.body.name, req.body.charger, 'price', req.body.current_battery,
+                    req.body.price, req.body.current_battery
+                ), (err, results ) => {
                     if(err) throw err;
                 }  
             );
