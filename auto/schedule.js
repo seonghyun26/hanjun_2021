@@ -47,6 +47,7 @@ const QUERY_NUMBEROFPRICE = `
     SELECT COUNT(DISTINCT(price)) AS distinct_number_of_price from price_24;
 `;
 
+const charger_conversion = ['T', 'A', 'B', 'C'];
 
 // ** How to use **
 // - * : every value
@@ -54,14 +55,18 @@ const QUERY_NUMBEROFPRICE = `
 // 6 values : second, minute, hour, day of month, month, dae of week
 // To stop : test.cancel();
 
-const charge_on_off = function (number, on_off) {
-    const params = encodeURIComponent(number) + '/' + encodeURIComponent(on_off) + '/';
-    if ( number >=1 && number <= 3 && typeof(on_off)==Boolean ){
+const charge_on_off = function (letter, on_off) {
+    const params = encodeURIComponent(letter) + '/' + encodeURIComponent(on_off) + '/';
+    if (
+        (letter == 'A' || letter == 'B' || letter == 'C' || letter == 'T')
+        && (on_off == 0 || on_off == 1)
+    ) {
         request({
             url: URL + params,
             method: 'GET'
         }, function (error, response, body) {
             if (error) throw error;
+            else console.log("Yeah")
         });
     } else {
         console.log("Error in parameter");
@@ -80,16 +85,19 @@ const update_battery = function (no, battery) {
 const predict_data = schedule.scheduleJob('0 0 16 * * *', function(){
 // const predict_data = schedule.scheduleJob('* * * * * *', function(){
     // Fill price_24 table 0~8 by predict data
-    var list = [200, 200, 200, 200, 200, 200, 200, 200, 200];
-    console.log(list[0])
-    db_connection.query(
-        QUERY_PREDICT(list), (err, results) => {
-            if(err) throw err;
-            else {
-                console.log("Predicted Data Updated");
-            }
-        }
-    );
+    // var list = [200, 200, 200, 200, 200, 200, 200, 200, 200];
+    // db_connection.query(
+    //     QUERY_PREDICT(list), (err, results) => {
+    //         if(err) throw err;
+    //         else {
+    //             console.log("Predicted Data Updated");
+    //         }
+    //     }
+    // );
+
+    // TODO: Search DB for demand Data
+    // update price_24
+
 });
 predict_data.cancel();
 
@@ -107,8 +115,9 @@ const set_group = schedule.scheduleJob('0 0 * * * *', function(){
                 const length = user_list.length;
                 const currentHour = (new Date()).getHours();
                 console.log(length);
-                // console.log(user_list);
+                charge_on_off("T", 0);
 
+                // for every user on list
                 for ( i = 0 ; i < length ; i++ ){
                     const user = user_list[i];
                     const type = user.charge_type;
@@ -122,7 +131,7 @@ const set_group = schedule.scheduleJob('0 0 * * * *', function(){
                             if ( time_left < number_of_charge_needed )  {
                                 console.log("Just Charge!");
                                 // Enable Charge
-                                // charge_on_off(user.charger, 1);
+                                // charge_on_off(charger_conversion[user.charger], 1);
                                 const updated_battery = user.current_battery > 75 ? 100 : user.current_battery+25;
                                 update_battery(user.no, updated_battery);
                             }
@@ -132,7 +141,7 @@ const set_group = schedule.scheduleJob('0 0 * * * *', function(){
                                 if ( price[j].hour == currentHour ) {
                                     console.log("Charge!");
                                     // Enable charge
-                                    // charge_on_off(user.charger, 1);
+                                    // charge_on_off(charger_conversion[user.charger], 1);
                                     const updated_battery = user.current_battery > 75 ? 100 : user.current_battery+25;
                                     update_battery(user.no, updated_battery);
                                     break;
@@ -152,7 +161,7 @@ const set_group = schedule.scheduleJob('0 0 * * * *', function(){
                         if ( user.goal_battery_or_price >= current_price || user.goal_battery_or_price == null) {
                             console.log("Charge!");
                             // Enable Charge
-                            // charge_on_off(user.charger, 1);
+                            // charge_on_off(charger_conversion[user.charger], 1);
                             const updated_battery = user.current_battery > 75 ? 100 : user.current_battery+25;
                             update_battery(user.no, updated_battery);
                         }
@@ -162,4 +171,9 @@ const set_group = schedule.scheduleJob('0 0 * * * *', function(){
         }
     );
 });
-charge.cancel();
+set_group.cancel();
+
+
+// charge test
+// charge_on_off("A", 0);
+charge_on_off("T", 0);

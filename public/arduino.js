@@ -31,9 +31,9 @@ router.get('/', function (req, res) {
 
 // Send ON/OFF signal to Arduino Server
 router.get('/:number/:on_off', function (req, res) {
-    const query_number = req.params.number;
+    const query_letter = req.params.number;
     const query_on_off = req.params.on_off;
-    const params = encodeURIComponent(query_number) + '/' + encodeURIComponent(query_on_off) + '/';
+    const params = encodeURIComponent(query_letter) + '/' + encodeURIComponent(query_on_off) + '/';
     request({
         url: URL + params,
         method: 'GET'

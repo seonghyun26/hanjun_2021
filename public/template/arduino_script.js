@@ -14,6 +14,7 @@ btn[0].addEventListener("change", event => changeValue(0));
 btn[1].addEventListener("change", event => changeValue(1));
 btn[2].addEventListener("change", event => changeValue(2));
 
+
 function changeValue(num) {
     var bntChecked = btn[num].checked;
     console.log(bntChecked);
@@ -27,9 +28,10 @@ function changeValue(num) {
 const init = () => {
     console.log("init");
     for ( i = 0 ; i < 3; i++ ){
+        console.log(btn[i].checked);
         console.log(status[i].innerHTML);
         if ( status[i].innerHTML == "ON" )   btn[i].checked = true;
-        else btn[i].checked = false;
+        else if ( status[i].innerHTML == "OFF" )     btn[i].checked = false;
     }
 }
 
