@@ -2,15 +2,10 @@ const schedule = require('node-schedule');
 const request = require('request');
 const convert = require('xml-js');
 
-const API = require('./secure/API_info.js');
-const DB = require('./secure/DB_info');
+const API = require('../secure/API_info.js');
+const DB = require('../secure/DB_info');
 const db_connection = DB.info();
 
-// ** How to use **
-// - * : every value
-// - /n : do every n
-// 6 values : second, minute, hour, day of month, month, dae of week
-// To stop : test.cancel();
 
 // QUERY
 const QUERY_PREDICT = function ( data ){
@@ -36,28 +31,11 @@ const QUERY_USERLIST = `
 `;
 
 
-// every 00:00
-const new_api = schedule.scheduleJob('0 0 16 * * *', function(){
-    // Bring new API data
-    // API smp
-    request({
-        url: API.smpURL() + API.smpQuery(),
-        method: 'GET'
-    }, function (error, response, body) {
-        if (error) throw error;
-        else {
-            console.log('Status', response.statusCode);
-            var parsedJSON = JSON.parse(convert.xml2json(body, {compact: true, spaces: 2}));
-            var todayDate = parsedJSON.response.body.items.item[0].tradeDay._text;
-            var todayData = parsedJSON.response.body.items.item;
-            var todayValues = [];
-            for( i = 0 ; i < todayData.length ; i++){
-                todayValues.push(todayData[i].smp._text);
-            }
-        }
-    });
-});
-new_api.cancel();
+// ** How to use **
+// - * : every value
+// - /n : do every n
+// 6 values : second, minute, hour, day of month, month, dae of week
+// To stop : test.cancel();
 
 
 // every 16:00
