@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 const router = express.Router();
 
 const URL = 'http://hyungu.asuscomm.com/';
-const URL_test='http://115.85.181.94:3000/arduino';
+// const URL_test='http://115.85.181.94:3000/arduino';
 
 const template = require('./template/arduino_template.js');
 
@@ -36,7 +36,6 @@ router.get('/:number/:on_off', function (req, res) {
     const params = encodeURIComponent(query_number) + '/' + encodeURIComponent(query_on_off) + '/';
     request({
         url: URL + params,
-        // url: URL_test,
         method: 'GET'
     }, function (error, response, body) {
         if (error) throw error;
