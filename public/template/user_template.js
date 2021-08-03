@@ -29,20 +29,22 @@ module.exports = {
     user_list:function(data){
         var list= '<table class="user-list" border="0" align="center">';
         list += '<th>Name</th>';
-        list += '<th>Charger</th>';
         list += '<th>Charge Type</th>';
+        list += '<th>Charger</th>';
         list += '<th>Current Battery</th>';
         list += '<th>Goal Battery/price</th>';
+        list += '<th>Exit Time</th>';
         {
             // console.log(data);
             var length = data.length;
             for ( i = 0 ; i < length ; i++){
                 list += `<tr>`;
                 list += `<td>${data[i].name}</td>`;
-                list += `<td>${data[i].charger}</td>`;
                 list += `<td>${data[i].charge_type}</td>`;
+                list += `<td>${data[i].charger}</td>`;
                 list += `<td>${data[i].current_battery}</td>`;
                 list += `<td>${data[i].goal_battery_or_price}</td>`;
+                list += `<td>${data[i].exit_time}</td>`;
                 list += `</tr>`;
             }
         }
