@@ -130,8 +130,7 @@ const set_group = schedule.scheduleJob('0 0 * * * *', function(){
                             console.log(time_left);
                             if ( time_left < number_of_charge_needed )  {
                                 console.log("Just Charge!");
-                                // Enable Charge
-                                // charge_on_off(charger_conversion[user.charger], 1);
+                                // charge_on_off(charger_conversion[user.charger - 1], 1);
                                 const updated_battery = user.current_battery > 75 ? 100 : user.current_battery+25;
                                 update_battery(user.no, updated_battery);
                             }
@@ -140,8 +139,7 @@ const set_group = schedule.scheduleJob('0 0 * * * *', function(){
                             for( j = 0 ; j < (number_of_charge_needed + 24 - distinct_price) ; j++ ){
                                 if ( price[j].hour == currentHour ) {
                                     console.log("Charge!");
-                                    // Enable charge
-                                    // charge_on_off(charger_conversion[user.charger], 1);
+                                    // charge_on_off(charger_conversion[user.charger - 1], 1);
                                     const updated_battery = user.current_battery > 75 ? 100 : user.current_battery+25;
                                     update_battery(user.no, updated_battery);
                                     break;
@@ -172,8 +170,3 @@ const set_group = schedule.scheduleJob('0 0 * * * *', function(){
     );
 });
 set_group.cancel();
-
-
-// charge test
-// charge_on_off("A", 0);
-charge_on_off("T", 0);
