@@ -12,9 +12,17 @@ const template = require('./template/arduino_template.js');
 router.get('/', function (req, res) {
     request({
         url: URL,
-        method: 'GET'
+        method: 'GET',
+        timeout: 1
     }, function (error, response, body) {
-        if (error) throw error;
+        if ( response === undefined ){
+            const html = template.HTML_error();
+            res.write(html);
+            res.end();
+        }
+        else if ( response.statusCode!=200 || error) {
+            throw error;
+        }
         else {
             const $ = cheerio.load(body);
             const currentStatus = $("button").toArray().map( x => { return $(x).text()});;
@@ -30,18 +38,18 @@ router.get('/', function (req, res) {
 });
 
 // Send ON/OFF signal to Arduino Server
-router.get('/:number/:on_off', function (req, res) {
-    const query_number = req.params.number;
+router.post('/:letter/:on_off', function (req, res) {
+    const query_letter = req.params.letter;
     const query_on_off = req.params.on_off;
-    const params = encodeURIComponent(query_number) + '/' + encodeURIComponent(query_on_off) + '/';
+    const params = encodeURIComponent(query_letter) + '/' + encodeURIComponent(query_on_off) + '/';
+    console.log(params);    
     request({
         url: URL + params,
-        method: 'GET'
+        method: 'GET',
+        timeout: 1
     }, function (error, response, body) {
         if (error) throw error;
-        else res.redirect('/arduino');
     });
-    res.redirect('/arduino');
 });
 
 module.exports = router;
