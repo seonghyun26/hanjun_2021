@@ -26,7 +26,7 @@ router.get('/smp', function (req, res) {
     db_connection.query(QUERY_SMP, (err, results) => {
         if(err) throw err;
         else {
-            var smp_list = archive_template.information_list(results);
+            var smp_list = archive_template.information_list_using_date(results);
             var html = archive_template.HTML_smp(smp_list);
             res.write(html);
             res.end();
