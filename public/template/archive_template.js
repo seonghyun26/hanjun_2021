@@ -24,6 +24,9 @@ module.exports = {
                 <button class="button" onClick="location.href='http://115.85.181.94:3000/archive/smp'">
                     SMP
                 </button>
+                <button class="button" onClick="location.href='http://115.85.181.94:3000/archive/load'">
+                    Load
+                </button>
                 <hr color="#89b0ae" width="40%" size="4px" align="center">
                 <br>
                 ${information_list}
@@ -54,8 +57,47 @@ module.exports = {
                 <button class="button" onClick="location.href='http://115.85.181.94:3000/archive/'">
                     Weather
                 </button>
-                <button disabled="disabled" class="button_selected" onClick="location.href='http://115.85.181.94:3000/archive/smp'">
+                <button disabled class="button_selected" onClick="location.href='http://115.85.181.94:3000/archive/smp'">
                     SMP
+                </button>
+                <button class="button" onClick="location.href='http://115.85.181.94:3000/archive/load'">
+                    Load
+                </button>
+                <hr color="#89b0ae" width="40%" size="4px" align="center">
+                <br>
+                ${information_list}
+            </body>
+        </html>
+        `;   
+    },
+
+    HTML_load:function(information_list){
+        return `
+        <!DOCTYPE html>
+        <html lang="EN">
+            <head>
+                <title>Archive - load</title>
+                <meta charset="utf-8">
+                <link type="text/css" rel="stylesheet" href="/css/main.css" />
+                <link type="text/css" rel="stylesheet" href="/css/button.css" />
+                <link type="text/css" rel="stylesheet" href="/css/table.css" />
+                <link rel="shortcut icon" href="/image/archive-filled-box.png" type="image/x-icon">
+                <link rel="icon" href="/image/archive-filled-box.png" type="image/x-icon">
+            </head>
+            <body>
+                <button class="button" onClick="location.href='http://115.85.181.94:3000/'">
+                    <img src="../image/home_icon.png" width="40px" height="40px" alt="Home">
+                </button>
+
+                <h2>SMP Archive</h2>
+                <button class="button" onClick="location.href='http://115.85.181.94:3000/archive/'">
+                    Weather
+                </button>
+                <button class="button" onClick="location.href='http://115.85.181.94:3000/archive/smp'">
+                    SMP
+                </button>
+                <button disabled class="button_selected" onClick="location.href='http://115.85.181.94:3000/archive/load'">
+                    Load
                 </button>
                 <hr color="#89b0ae" width="40%" size="4px" align="center">
                 <br>

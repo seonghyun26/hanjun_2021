@@ -7,6 +7,7 @@ const db_connection = DB.info();
 
 const QUERY_WEATHER = `SELECT * FROM history_weather`;
 const QUERY_SMP = `SELECT * FROM history_smp`;
+const QUERY_LOAD = `SELECT * FROM history_load`;
 
 
 router.get('/', function (req, res) {
@@ -27,6 +28,18 @@ router.get('/smp', function (req, res) {
         else {
             var smp_list = archive_template.information_list(results);
             var html = archive_template.HTML_smp(smp_list);
+            res.write(html);
+            res.end();
+        }
+    });
+});
+
+router.get('/load', function (req, res) {
+    db_connection.query(QUERY_LOAD, (err, results) => {
+        if(err) throw err;
+        else {
+            var load_list = archive_template.information_list(results);
+            var html = archive_template.HTML_load(load_list);
             res.write(html);
             res.end();
         }
