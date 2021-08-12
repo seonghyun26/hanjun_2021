@@ -129,5 +129,29 @@ module.exports = {
 
         list += '</table><br><br>';
         return list;
+    },
+
+    information_list_using_date:function(data) {
+        var list= '<table class="user-list" border="0" align="center">';
+        list += '<th>Date</th>';
+
+        for ( i = 0 ; i < 24 ; i++ ){
+            list += `<th>h${i}</th>`;
+        }
+        
+        var length = data.length;;
+        for ( i = 0 ; i < length ; i++){
+            var day = data[i];
+            var hour_data = Object.values(day).slice(1);
+            list += `<tr>`;
+            list += `<td>${parseInt((day.date%10000)/100)}-${day.date%100}</td>`;
+            for ( j = 0 ; j < 24 ; j++ ) {
+                list += `<td>${hour_data[j]}</td>`;
+            }
+            list += `</tr>`;
+        }
+
+        list += '</table><br><br>';
+        return list;
     }
 }
