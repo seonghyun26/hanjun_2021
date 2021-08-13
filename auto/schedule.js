@@ -103,7 +103,7 @@ predict_data.cancel();
 
 
 // every **:00
-const set_group = schedule.scheduleJob('0 0 * * * *', function(){
+const set_charge = schedule.scheduleJob('0 0 * * * *', function(){
 // const charge = schedule.scheduleJob('* * * * * *', function(){
     db_connection.query(
         QUERY_USERNEEDTOCHARGE + QUERY_GETPRICE + QUERY_NUMBEROFPRICE, (err, results) => {
@@ -169,4 +169,4 @@ const set_group = schedule.scheduleJob('0 0 * * * *', function(){
         }
     );
 });
-set_group.cancel();
+set_charge.cancel();

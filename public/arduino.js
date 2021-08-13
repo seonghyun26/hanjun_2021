@@ -13,14 +13,16 @@ router.get('/', function (req, res) {
     request({
         url: URL,
         method: 'GET',
-        timeout: 1
+        timeout: 3000
     }, function (error, response, body) {
+        console.log(response);
         if ( response === undefined ){
             const html = template.HTML_error();
+            console.log("offline");
             res.write(html);
             res.end();
         }
-        else if ( response.statusCode!=200 || error) {
+        else if (error) {
             throw error;
         }
         else {
@@ -46,7 +48,7 @@ router.post('/:letter/:on_off', function (req, res) {
     request({
         url: URL + params,
         method: 'GET',
-        timeout: 1
+        timeout: 3000
     }, function (error, response, body) {
         if (error) throw error;
     });
