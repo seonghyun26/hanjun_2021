@@ -27,6 +27,9 @@ module.exports = {
                 <button class="button" onClick="location.href='http://115.85.181.94:3000/archive/load'">
                     Load
                 </button>
+                <button class="button" onClick="location.href='http://115.85.181.94:3000/archive/price'">
+                    Price
+                </button>
                 <hr color="#89b0ae" width="40%" size="4px" align="center">
                 <br>
                 ${information_list}
@@ -63,6 +66,9 @@ module.exports = {
                 <button class="button" onClick="location.href='http://115.85.181.94:3000/archive/load'">
                     Load
                 </button>
+                <button class="button" onClick="location.href='http://115.85.181.94:3000/archive/price'">
+                    Price
+                </button>
                 <hr color="#89b0ae" width="40%" size="4px" align="center">
                 <br>
                 ${information_list}
@@ -89,7 +95,7 @@ module.exports = {
                     <img src="../image/home_icon.png" width="40px" height="40px" alt="Home">
                 </button>
 
-                <h2>SMP Archive</h2>
+                <h2>Load Archive</h2>
                 <button class="button" onClick="location.href='http://115.85.181.94:3000/archive/'">
                     Weather
                 </button>
@@ -99,12 +105,54 @@ module.exports = {
                 <button disabled class="button_selected" onClick="location.href='http://115.85.181.94:3000/archive/load'">
                     Load
                 </button>
+                <button class="button" onClick="location.href='http://115.85.181.94:3000/archive/price'">
+                    Price
+                </button>
                 <hr color="#89b0ae" width="40%" size="4px" align="center">
                 <br>
                 ${information_list}
             </body>
         </html>
         `;   
+    },
+
+    HTML_price:function(graph){
+        return `
+        <!DOCTYPE html>
+        <html lang="EN">
+            <head>
+                <title>Archive - load</title>
+                <meta charset="utf-8">
+                <link type="text/css" rel="stylesheet" href="/css/main.css" />
+                <link type="text/css" rel="stylesheet" href="/css/button.css" />
+                <link type="text/css" rel="stylesheet" href="/css/table.css" />
+                <link rel="shortcut icon" href="/image/archive-filled-box.png" type="image/x-icon">
+                <link rel="icon" href="/image/archive-filled-box.png" type="image/x-icon">
+            </head>
+            <body>
+                <button class="button" onClick="location.href='http://115.85.181.94:3000/'">
+                    <img src="../image/home_icon.png" width="40px" height="40px" alt="Home">
+                </button>
+
+                <h2>Price Archive</h2>
+                <button class="button" onClick="location.href='http://115.85.181.94:3000/archive/'">
+                    Weather
+                </button>
+                <button class="button" onClick="location.href='http://115.85.181.94:3000/archive/smp'">
+                    SMP
+                </button>
+                <button  class="button" onClick="location.href='http://115.85.181.94:3000/archive/load'">
+                    Load
+                </button>
+                <button disabled class="button_selected" onClick="location.href='http://115.85.181.94:3000/archive/price'">
+                    Price
+                </button>
+                <hr color="#89b0ae" width="40%" size="4px" align="center">
+                <br>
+                ${graph}
+            </body>
+        </html>
+        `;
     },
 
     information_list:function(data){
@@ -115,7 +163,7 @@ module.exports = {
             list += `<th>h${i}</th>`;
         }
         
-        var length = data.length;;
+        const length = data.length;;
         for ( i = 0 ; i < length ; i++){
             var day = data[i];
             var hour_data = Object.values(day).slice(3);
@@ -139,7 +187,7 @@ module.exports = {
             list += `<th>h${i}</th>`;
         }
         
-        var length = data.length;;
+        const length = data.length;;
         for ( i = 0 ; i < length ; i++){
             var day = data[i];
             var hour_data = Object.values(day).slice(1);
@@ -153,5 +201,72 @@ module.exports = {
 
         list += '</table><br><br>';
         return list;
+    },
+
+    graph:function(data) {
+        return `
+        <div>
+            <canvas id="priceChart" responsive="true" style="position: relative; height:40vh; width:80vw"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+        const labels = [
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23
+        ];
+        
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: '원(\₩)',
+                backgroundColor: '#555b6e',
+                borderColor: '#89b0ae',
+                data: [${data}],
+                tension: 0.1
+            }]
+        };
+        
+        const options = {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Today Price',
+                    font : {
+                        wight: 'bold',
+                        size: 20
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: "HOUR",
+                        font : {
+                            weight: 'bold',
+                            size: 16
+                        }
+                    }
+                },
+                y: {
+                    min: 30,
+                    max: 320,
+                }
+            }
+        }
+
+        const config = {
+            type: 'line',
+            data,
+            options
+        };
+        
+        const smpChart = new Chart(
+            document.getElementById('priceChart'),
+            config
+        );
+
+        </script>
+        `
     }
 }
