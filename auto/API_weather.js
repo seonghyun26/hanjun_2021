@@ -44,8 +44,8 @@ const QUERY_NEWSMP = function (month, day, data) {
 }
 
 // every 00/06/12/18 : 00
-// const api_weather = schedule.scheduleJob('0 0 */6 * * *', function(){
-const api_weather = schedule.scheduleJob('* * * * * *', function(){
+const api_weather = schedule.scheduleJob('0 0 */6 * * *', function(){
+// const api_weather = schedule.scheduleJob('* * * * * *', function(){
     const today = new Date();
     const month = ("0" + (1 + today.getMonth())).slice(-2);
     const day = ("0" + today.getDate()).slice(-2);

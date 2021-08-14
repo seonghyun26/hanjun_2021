@@ -10,7 +10,7 @@ const QUERY_USERLIST = `
     WHERE  (
         charge_type="battery" AND goal_battery_or_price > current_battery
     ) OR (
-        charge_type="price" AND 75 > current_battery
+        charge_type="price" AND 100 != current_battery
     );
 `;
 
