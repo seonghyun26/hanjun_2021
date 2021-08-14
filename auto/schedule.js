@@ -90,14 +90,14 @@ const charge_on_off = function (letter, on_off) {
         (letter == 'A' || letter == 'B' || letter == 'C' || letter == 'T')
         && (on_off == 0 || on_off == 1)
     ) {
-        // request({
-        //     url: URL + params,
-        //     method: 'GET',
-        //     timeout: 2000
-        // }, function (error, response, body) {
-        //     if (error) throw error;
-        //     else console.log("Charger working Well")
-        // });
+        request({
+            url: URL + params,
+            method: 'GET',
+            timeout: 2000
+        }, function (error, response, body) {
+            if (error) throw error;
+            else console.log("Charger working Well")
+        });
     } else {
         console.log("Error in parameter");
     }   
