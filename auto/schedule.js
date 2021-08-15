@@ -55,11 +55,7 @@ const QUERY_PREDICT = function ( data ){
         WHERE hour BETWEEN 0 AND 23
     `
 };
-const QUERY_UPDATE = function (no, battery) {
-    return `
-        UPDATE user_status set current_battery=${battery} WHERE no=${no}
-    `;
-}
+
 const QUERY_USERNEEDTOCHARGE = `
     SELECT * FROM user_status
     WHERE  (
@@ -84,33 +80,6 @@ const charger_conversion = ['T', 'A', 'B', 'C'];
 // To stop : test.cancel();
 
 // Functions
-const charge_on_off = function (letter, on_off) {
-    const params = encodeURIComponent(letter) + '/' + encodeURIComponent(on_off) + '/';
-    if (
-        (letter == 'A' || letter == 'B' || letter == 'C' || letter == 'T')
-        && (on_off == 0 || on_off == 1)
-    ) {
-        request({
-            url: URL + params,
-            method: 'GET',
-            timeout: 2000
-        }, function (error, response, body) {
-            if (error) throw error;
-            else console.log("Charger working Well")
-        });
-    } else {
-        console.log("Error in parameter");
-    }   
-}
-
-const update_battery = function (no, battery) {
-    db_connection.query(
-        QUERY_UPDATE(no, battery), (err, results) => {
-            if(err) throw err;
-        }
-    );
-}
-
 const load_to_price = function(data) {
     var price_data = [];
     const max_load = Math.max.apply(null, data);
@@ -124,6 +93,106 @@ const load_to_price = function(data) {
 
     return price_data
 }
+
+
+const QUERY_UPDATE = function (no, battery) {
+    return `
+        UPDATE user_status set current_battery=${battery} WHERE no=${no}
+    `;
+}
+const update_battery = function (no, battery) {
+    db_connection.query(
+        QUERY_UPDATE(no, battery), (err, results) => {
+            if(err) throw err;
+        }
+    );
+}
+
+
+const QUERY_UPDATELOG = function(user, battery, price){
+    const today = new Date();
+    return `
+        INSERT INTO event_update
+        ( dt, name, charge_type, before_battery, after_battery, price, exit_time)
+        VALUES
+        (
+            ${today}, ${user.name}, ${user.charge_type}, ${user.current_battery},
+            ${battery}, ${price}, ${user.exit_time}
+        )
+    `;
+}
+const record_event = function (user, update_battery, price) {
+    db_connection.query(
+        QUERY_UPDATELOG(user, update_battery, price), (err, results) => {
+            if(err) throw err;
+        }
+    );
+}
+
+
+const QUERY_UPDATELOGERROR = function(user) {
+    const today = new Date().toISOString().slice(0, 19).replace('T', ' ');;
+    return `
+        INSERT INTO event_update
+        ( dt, name, charge_type)
+        VALUES
+        (
+            '${today}', '${user.name}', 'Request Error'
+        )
+    `;
+}
+const record_error = function (user){
+    db_connection.query(
+        QUERY_UPDATELOGERROR(user), (err, results) => {
+            if(err) throw err;
+        }
+    );
+}
+
+
+const all_off = function(){
+    const params = encodeURIComponent('T') + '/' + encodeURIComponent(0) + '/';
+    request({
+        url: URL + params,
+        method: 'GET',
+        timeout: 2000
+    }, function (error, response, body) {
+        try {
+            if (error) throw error;
+            console.log("Charger All turned Off")
+        } catch (error) {
+            console.log("Communication Error (ALL) ");
+            const user = {
+                name: "ALL"
+            }
+            record_error(user);
+        }
+    });
+}
+const charge_on_off = function (letter, on_off, user, updated_battery, current_price) {
+    const params = encodeURIComponent(letter) + '/' + encodeURIComponent(on_off) + '/';
+    if (
+        (letter == 'A' || letter == 'B' || letter == 'C')
+        && (on_off == 0 || on_off == 1)
+    ) {
+        request({
+            url: URL + params,
+            method: 'GET',
+            timeout: 2000
+        }, function (error, response, body) {
+            try {
+                if (error) throw error;
+                console.log("Charger working Well");
+                update_battery(user.no, updated_battery);
+                record_event(user, updated_battery, current_price);
+            } catch (error) {
+                console.log("Communication Error");
+                record_error(user);
+            }
+        });
+    } else console.log("Error in parameter");
+}
+
 
 // every 00:00.01
 const predict_data = schedule.scheduleJob('1 0 0 * * *', function(){
@@ -178,8 +247,8 @@ const predict_data_16 = schedule.scheduleJob('1 0 16 * * *', function(){
 
 
 // every **:00.10
-const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
-// const charge = schedule.scheduleJob('*/10 * * * * *', function(){
+// const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
+const charge = schedule.scheduleJob('*/10 * * * * *', function(){
     db_connection.query(
         QUERY_USERNEEDTOCHARGE + QUERY_GETPRICE + QUERY_NUMBEROFPRICE, (err, results) => {
             if(err) throw err;
@@ -193,7 +262,7 @@ const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
                 console.log("Number of Users: ", length);
 
                 // init
-                charge_on_off("T", 0);
+                all_off();
                 var current_price = 0;
                 for( j = 0 ; j < 24; j++ ){
                     if ( price[j].hour == currentHour ) {
@@ -224,18 +293,16 @@ const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
                                 // Time not left much, just charge
                                 if ( time_left <= number_of_charge_needed )  {
                                     console.log("Just Charge!(Need Full Charge) ");
-                                    charge_on_off(charger_conversion[user.charger], 1);
                                     const updated_battery = user.current_battery > 75 ? 100 : user.current_battery+25;
-                                    update_battery(user.no, updated_battery);
+                                    charge_on_off(charger_conversion[user.charger], 1, user, updated_battery, current_price);
                                 }
                                 // Find time with the Cheapest price when enough time left
                                 else {
                                     for( j = 0 ; j < (number_of_charge_needed + 24 - distinct_price) ; j++ ){
                                         if ( price[j].hour == currentHour ) {
                                             console.log("Charge by price!");
-                                            charge_on_off(charger_conversion[user.charger], 1);
                                             const updated_battery = user.current_battery > 75 ? 100 : user.current_battery+25;
-                                            update_battery(user.no, updated_battery);
+                                            charge_on_off(charger_conversion[user.charger], 1, user, updated_battery, current_price);
                                             break;
                                         }
                                     }
@@ -246,18 +313,16 @@ const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
                             else if ( type == 'price' ) {
                                 if ( user.goal_battery_or_price >= current_price || user.goal_battery_or_price == null) {
                                     console.log("Charge!");
-                                    // Enable Charge
-                                    charge_on_off(charger_conversion[user.charger], 1);
                                     const updated_battery = user.current_battery > 75 ? 100 : user.current_battery+25;
-                                    update_battery(user.no, updated_battery);
+                                    charge_on_off(charger_conversion[user.charger], 1, user, updated_battery, current_price);
                                 }
                             }
 
-                        }, 2000 * i )
+                        }, 2000 * (i+1) )
                     })(user_num);
                 }
             }
         }
     );
 });
-set_charge.cancel();
+// set_charge.cancel();
