@@ -111,12 +111,14 @@ const update_battery = function (no, battery) {
 
 const QUERY_UPDATELOG = function(user, battery, price){
     const today = new Date();
+    today.setDate(today.getHours()+9);
+    const dt = today.toISOString().slice(0, 19).replace('T', ' ');
     return `
         INSERT INTO event_update
         ( dt, name, charge_type, before_battery, after_battery, price, exit_time)
         VALUES
         (
-            ${today}, ${user.name}, ${user.charge_type}, ${user.current_battery},
+            ${dt}, ${user.name}, ${user.charge_type}, ${user.current_battery},
             ${battery}, ${price}, ${user.exit_time}
         )
     `;
@@ -131,7 +133,9 @@ const record_event = function (user, update_battery, price) {
 
 
 const QUERY_UPDATELOGERROR = function(user) {
-    const today = new Date().toISOString().slice(0, 19).replace('T', ' ');;
+    const today = new Date();
+    today.setDate(today.getHours()+9);
+    const dt = today.toISOString().slice(0, 19).replace('T', ' ');
     return `
         INSERT INTO event_update
         ( dt, name, charge_type)
@@ -262,7 +266,7 @@ const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
                 console.log("Number of Users: ", length);
 
                 // init
-                all_off();
+                // all_off();
                 var current_price = 0;
                 for( j = 0 ; j < 24; j++ ){
                     if ( price[j].hour == currentHour ) {
