@@ -247,8 +247,8 @@ const predict_data_16 = schedule.scheduleJob('1 0 16 * * *', function(){
 
 
 // every **:00.10
-// const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
-const charge = schedule.scheduleJob('*/10 * * * * *', function(){
+const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
+// const charge = schedule.scheduleJob('*/10 * * * * *', function(){
     db_connection.query(
         QUERY_USERNEEDTOCHARGE + QUERY_GETPRICE + QUERY_NUMBEROFPRICE, (err, results) => {
             if(err) throw err;
