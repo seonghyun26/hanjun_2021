@@ -72,12 +72,13 @@ const charge_on_off = function (letter, on_off, user, updated_battery, current_p
             try {
                 if (error) throw error;
                 else {
-                    console.log("Charger working Well , on(1)/off(0): ", on_off);
+                    console.log("Charger working Well , charger&on/off: ", letter, on_off);
                     QUERY.update_battery(user.no, updated_battery);
                     QUERY.record_event(user, updated_battery, current_price, on_off);
                 }
             } catch (error) {
-                console.log("Communication Error");
+                console.log("Communication Error , charger&on/off:", letter, on_off);
+                console.log(error)
                 QUERY.record_error(user);
             }
         });
@@ -129,6 +130,7 @@ const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
                             if ( type == 'battery' ){
                                 // Check goal battery first
                                 if ( user.current_battery == parseInt(user.goal_battery_or_price) ) {
+                                    console.log("Charging by battery Complete");
                                     // move user_status to user_finished
                                     QUERY.move_to_finished(user);
                                     QUERY.delete_charging(user);
@@ -141,8 +143,7 @@ const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
 
                                     // Consider exit_time first
                                     const time_left = (parseInt(user.exit_time.substring(0,2)) - currentHour + 24) % 24;
-                                    console.log("time left: ", time_left);
-                                    console.log("number_of_charge_needed: ", number_of_charge_needed);
+                                    console.log("time left: ", time_left, ", number_of_charge_needed: ", number_of_charge_needed);
                                     // Time not left much, just charge
                                     if ( time_left <= number_of_charge_needed )  {
                                         console.log("Just Charge!(Need Full Charge) ");
@@ -170,6 +171,7 @@ const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
                             else if ( type == 'price' ) {
                                 // Check current battery first
                                 if ( user.current_battery == 100 ) {
+                                    console.log("Charging by price reached 100%");
                                     // move user_status to user_finished
                                     QUERY.move_to_finished(user);
                                     QUERY.delete_charging(user);

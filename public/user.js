@@ -7,11 +7,6 @@ const db_connection = DB.info();
 
 const QUERY_USERLIST = `
     SELECT * FROM user_status
-    WHERE  (
-        charge_type="battery" AND goal_battery_or_price > current_battery
-    ) OR (
-        charge_type="price" AND 100 != current_battery
-    );
 `;
 
 router.get('/', function (req, res) {
