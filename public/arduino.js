@@ -15,7 +15,6 @@ router.get('/', function (req, res) {
         method: 'GET',
         timeout: 3000
     }, function (error, response, body) {
-        console.log(response);
         if ( response === undefined ){
             const html = template.HTML_error();
             console.log("offline");

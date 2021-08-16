@@ -9,10 +9,11 @@
 }
 
 img{
-    border-radius: 70%
+    border-radius: 70%;
+    transition: all 0.2s ease 0s;
 }
 
 img:hover {
     box-shadow: 1px 1px 8px #555;
-    transition: 0.3s;
+    transform: translateY(-1px);
 }
