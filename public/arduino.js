@@ -43,6 +43,7 @@ router.post('/:letter/:on_off', function (req, res) {
     const query_letter = req.params.letter;
     const query_on_off = req.params.on_off;
     const params = encodeURIComponent(query_letter) + '/' + encodeURIComponent(query_on_off) + '/';
+    console.log(new Date());
     console.log(params);    
     request({
         url: URL + params,
