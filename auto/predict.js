@@ -51,30 +51,52 @@ const QUERY_PREDICT = function ( data ){
     `
 };
 
-// every 00:00.01
-const predict_data = schedule.scheduleJob('1 0 0 * * *', function(){
-    // const predict_data = schedule.scheduleJob('* * * * * *', function(){
-        const date = (new Date()).getDate();
-        db_connection.query(
-            QUERY_GETLOADDATA(date), (err, results) => {
-                if(err) throw err;
-                else {
-                    //convert data into price
-                    const load_data = Object.values(results[0]).slice(3, 27);
-                    const price_data = load_to_price(load_data)
-                    // update price_24
-                    db_connection.query(
-                        QUERY_PREDICT(price_data), (err, results) => {
-                            if(err) throw err;
-                            else console.log("predict Completed");
-                        }
-                    )
-                }
-            }
+const QUERY_PRICETODB = function (month, day, data) {
+    return `
+        INSERT INTO history_price
+        (
+            month, day,
+            h0, h1, h2, h3, h4, h5,
+            h6, h7, h8, h9, h10, h11,
+            h12, h13, h14, h15, h16, h17,
+            h18, h19, h20, h21, h22, h23
         )
-    });
-    // predict_data.cancel();
-    
+        VALUES
+        (
+            ${month}, ${day},
+            ${data[0]},${data[1]},${data[2]},${data[3]},${data[4]},${data[5]},
+            ${data[6]},${data[7]},${data[8]},${data[9]},${data[10]},${data[11]},
+            ${data[12]},${data[13]},${data[14]},${data[15]},${data[16]},${data[17]},
+            ${data[18]},${data[19]},${data[20]},${data[21]},${data[22]},${data[23]}
+        )
+    `;
+}
+
+// every 00:00.01
+const predict_data = schedule.scheduleJob('10 0 0 * * *', function(){
+// const predict_data = schedule.scheduleJob('* * * * * *', function(){
+    const date = (new Date()).getDate();
+    db_connection.query(
+        QUERY_GETLOADDATA(date), (err, results) => {
+            if(err) throw err;
+            else {
+                //convert data into price
+                const load_data = Object.values(results[0]).slice(3, 27);
+                const price_data = load_to_price(load_data)
+                // update price_24
+                db_connection.query(
+                    QUERY_PREDICT(price_data), (err, results) => {
+                        if(err) throw err;
+                        else console.log("predict Completed");
+                    }
+                )
+            }
+        }
+    )
+});
+// predict_data.cancel();
+
+
 // every 16:00.00
 const predict_data_16 = schedule.scheduleJob('1 0 16 * * *', function(){
 // const predict_data_16 = schedule.scheduleJob('* * * * * *', function(){
@@ -99,5 +121,27 @@ const predict_data_16 = schedule.scheduleJob('1 0 16 * * *', function(){
             }
         }
     )
-    });
+});
 // predict_data_16.cancel();
+
+
+const predict_data_to_DB = schedule.scheduleJob('0 1 0 * * *', function(){
+// const predict_data_to_DB = schedule.scheduleJob('* * * * * *', function(){
+    db_connection.query(
+        `SELECT * FROM price_24`, (err, results) => {
+            if(err) throw err;
+            else {
+                var price = [];
+                results.forEach( element => { price.push(element.price) });
+                const today = new Date();
+                db_connection.query(
+                    QUERY_PRICETODB(today.getMonth()+1, today.getDate(), price), (err, results) => {
+                        if(err) throw err;
+                        else console.log("Price saved to DB");
+                    }
+                )
+            }
+        }
+    )
+});
+// predict_data_to_DB.cancel();
