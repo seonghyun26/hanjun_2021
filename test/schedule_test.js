@@ -38,7 +38,7 @@ const test = schedule.scheduleJob('*/10 * * * * *', function(){
 test.cancel();
 
 
-const test_2 = schedule.scheduleJob('0 0 */1 * * *', function(){ 
+const test2 = schedule.scheduleJob('0 0 */1 * * *', function(){ 
     const dt = new Date();
     const hour = dt.getHours();
     const min = dt.getMinutes();
@@ -49,4 +49,18 @@ const test_2 = schedule.scheduleJob('0 0 */1 * * *', function(){
         }
     )
 });
+test2.cancel();
 
+
+
+const QUERY_GETPRICE = `SELECT * FROM price_24 ORDER BY price, hour;`;
+const test3 = schedule.scheduleJob('* * * * * *', function(){ 
+    db_connection.query(
+        QUERY_GETPRICE, (err, results) => {
+            if(err) throw err;
+            else {
+                console.log(results);
+            }
+        }
+    )
+});

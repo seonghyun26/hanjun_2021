@@ -107,9 +107,8 @@ const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
                     (function(i) {
                         setTimeout(function(){
                             const user = user_list[i];
-                            const no = user.no;
                             const type = user.charge_type;
-                            console.log("\nUser Name: ", user.name, user.charge_type);
+                            console.log("\nUser: ", user.name, ", ", type);
 
                             // Charge type - battery
                             if ( type == 'battery' ){
@@ -123,12 +122,11 @@ const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
                                     charge_on_off(charger_conversion[user.charger], 0, user, user.current_battery, current_price);
                                 }
                                 else {
-                                    // calculate number of charge needed
+                                    // calculate number of charge needed & exit_time
                                     const number_of_charge_needed = Math.ceil((user.goal_battery_or_price - user.current_battery) / 25);
-
-                                    // Consider exit_time first
                                     const time_left = (parseInt(user.exit_time.substring(0,2)) - currentHour + 24) % 24;
                                     console.log("time left: ", time_left, ", number_of_charge_needed: ", number_of_charge_needed);
+
                                     // Time not left much, just charge
                                     if ( time_left <= number_of_charge_needed )  {
                                         console.log("Just Charge!(Need Full Charge) ");
@@ -139,7 +137,7 @@ const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
                                     else {
                                         for( j = 0 ; j < (number_of_charge_needed + 24 - distinct_price) ; j++ ){
                                             if ( price[j].hour == currentHour ) {
-                                                console.log("Charge by battery(cheap price_!");
+                                                console.log("Charge by battery(cheap price)!");
                                                 const updated_battery = user.current_battery > 75 ? 100 : user.current_battery+25;
                                                 charge_on_off(charger_conversion[user.charger], 1, user, updated_battery, current_price);
                                                 break;
