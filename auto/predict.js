@@ -4,6 +4,7 @@ const DB = require('../secure/DB_info');
 const db_connection = DB.info();
 
 
+// Price
 const QUERY_GETLOADDATA = function ( date ){
     return `
         SELECT * FROM history_load
@@ -72,6 +73,22 @@ const QUERY_PRICETODB = function (month, day, data) {
     `;
 }
 
+// Function
+const load_to_price = function(data) {
+    var price_data = [];
+    const max_load = Math.max.apply(null, data);
+
+    data.forEach(element => {
+        if ( element < 0.779 * max_load )   price_data.push(52.6)
+        else if ( element < 0.909 * max_load )  price_data.push( (399.65/max_load/max_load) * element * element - 189.92)
+        else if ( element < max_load )  price_data.push( (501.96/max_load/max_load) * element * element - 274.46)
+        else price_data.push(300);
+    });
+
+    return price_data
+}
+
+
 // every 00:00.01
 const predict_data = schedule.scheduleJob('10 0 0 * * *', function(){
 // const predict_data = schedule.scheduleJob('* * * * * *', function(){
@@ -115,7 +132,7 @@ const predict_data_16 = schedule.scheduleJob('1 0 16 * * *', function(){
                 db_connection.query(
                     QUERY_PREDICT(price_data), (err, results) => {
                         if(err) throw err;
-                        else console.log("Predict 16 Compelted");
+                        else console.log("Predict 16 Compelted, DB updated");
                     }
                 )
             }

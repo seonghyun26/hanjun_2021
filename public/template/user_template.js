@@ -1,5 +1,5 @@
 module.exports = {
-    HTML:function(user_list){
+    HTML:function(user_list, graph){
         return `
         <!DOCTYPE html>
         <html lang="EN">
@@ -21,6 +21,7 @@ module.exports = {
                 <hr color="#89b0ae" width="40%" size="4px" align="center">
                 <br>
                 ${user_list}
+                ${graph}
             </body>
         </html>
         `;
@@ -52,5 +53,72 @@ module.exports = {
         }
         list += '</table><br><br>';
         return list;
+    },
+
+    price_graph:function(data) {
+        return `
+        <div>
+            <canvas id="priceChart" responsive="true" style="position: relative; height:30vh; width:80vw"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+        const labels = [
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
+        ];
+        
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: '원(\₩)',
+                backgroundColor: '#555b6e',
+                borderColor: '#89b0ae',
+                data: [${data}],
+                tension: 0.1
+            }]
+        };
+        
+        const options = {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Today Price',
+                    font : {
+                        wight: 'bold',
+                        size: 20
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: "HOUR",
+                        font : {
+                            weight: 'bold',
+                            size: 16
+                        }
+                    }
+                },
+                y: {
+                    min: 30,
+                    max: 320,
+                }
+            }
+        }
+
+        const config = {
+            type: 'line',
+            data,
+            options
+        };
+        
+        const smpChart = new Chart(
+            document.getElementById('priceChart'),
+            config
+        );
+
+        </script>
+        `
     }
 }

@@ -43,8 +43,10 @@ router.post('/:letter/:on_off', function (req, res) {
     const query_letter = req.params.letter;
     const query_on_off = req.params.on_off;
     const params = encodeURIComponent(query_letter) + '/' + encodeURIComponent(query_on_off) + '/';
-    console.log(new Date());
-    console.log(params);    
+    const dt = new Date();
+    dt.setHours(dt.getHours()+9);
+    const now = dt.toISOString().slice(0, 19).replace('T', ' ');
+    console.log("Time: ", now, ", Params:", params);
     request({
         url: URL + params,
         method: 'GET',

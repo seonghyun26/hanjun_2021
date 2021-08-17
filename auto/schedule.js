@@ -21,21 +21,6 @@ const QUERY_NUMBEROFPRICE = `
 // 6 values : second, minute, hour, day of month, month, dae of week
 // To stop : {name}.cancel();
 
-// Functions
-const load_to_price = function(data) {
-    var price_data = [];
-    const max_load = Math.max.apply(null, data);
-
-    data.forEach(element => {
-        if ( element < 0.779 * max_load )   price_data.push(52.6)
-        else if ( element < 0.909 * max_load )  price_data.push( (399.65/max_load/max_load) * element * element - 189.92)
-        else if ( element < max_load )  price_data.push( (501.96/max_load/max_load) * element * element - 274.46)
-        else price_data.push(300);
-    });
-
-    return price_data
-}
-
 
 // Request function for Charging
 const all_off = function(){
@@ -72,12 +57,12 @@ const charge_on_off = function (letter, on_off, user, updated_battery, current_p
             try {
                 if (error) throw error;
                 else {
-                    console.log("Charger working Well , charger&on/off: ", letter, on_off);
+                    console.log("Charger working Well , charger & on/off: ", letter, on_off);
                     QUERY.update_battery(user.no, updated_battery);
                     QUERY.record_event(user, updated_battery, current_price, on_off);
                 }
             } catch (error) {
-                console.log("Communication Error , charger&on/off:", letter, on_off);
+                console.log("Communication Error , charger & on/off:", letter, on_off);
                 console.log(error)
                 QUERY.record_error(user);
             }
@@ -124,7 +109,7 @@ const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
                             const user = user_list[i];
                             const no = user.no;
                             const type = user.charge_type;
-                            console.log("\nUser Name: ", user.name);
+                            console.log("\nUser Name: ", user.name, user.charge_type);
 
                             // Charge type - battery
                             if ( type == 'battery' ){
