@@ -59,8 +59,34 @@ const test3 = schedule.scheduleJob('* * * * * *', function(){
         QUERY_GETPRICE, (err, results) => {
             if(err) throw err;
             else {
-                console.log(results);
+                const price = results;
+                const currentHour = 19;
+                const exit_time = 21;
+                const time_left = ( exit_time - currentHour + 24) % 24;
+                const number_of_charge_needed = 1;
+                console.log(price);
+                console.log("hour:", currentHour, ", time left: ", time_left)
+                var cnt = 0;
+                for( i = 0 ; i < 24 ; i++ ){
+                    // skip if not in time limit
+                    if ( (exit_time - price[i].hour + 24) % 24 > time_left || exit_time == price[i].hour) {
+                        if ( i == 23 ) console.log("off");
+                        else {
+                            console.log("i :", i, ", hour:", price[i].hour, "skip");
+                            continue;
+                        }
+                    }
+                    else if( price[i].hour == currentHour && cnt < number_of_charge_needed ) {
+                        console.log("i :", i, ", hour:", price[i].hour, "charge");
+                        break;
+                    } 
+                    else {
+                        console.log("i :", i, ", hour:", price[i].hour, "nothing");
+                        cnt++;
+                    }
+                }
             }
         }
     )
 });
+// test3.cancel();

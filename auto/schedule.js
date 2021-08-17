@@ -11,9 +11,6 @@ const charger_conversion = ['T', 'A', 'B', 'C'];
 
 const QUERY_USERNEEDTOCHARGE = `SELECT * FROM user_status;`;
 const QUERY_GETPRICE = `SELECT * FROM price_24 ORDER BY price, hour;`;
-const QUERY_NUMBEROFPRICE = `
-    SELECT COUNT(DISTINCT(price)) AS distinct_number_of_price from price_24;
-`;
 
 // ** How to use **
 // - * : every value
@@ -23,26 +20,6 @@ const QUERY_NUMBEROFPRICE = `
 
 
 // Request function for Charging
-const all_off = function(){
-    const params = encodeURIComponent('T') + '/' + encodeURIComponent(0) + '/';
-    request({
-        url: URL + params,
-        method: 'GET',
-        timeout: 10000
-    }, function (error, response, body) {
-        try {
-            if (error) throw error;
-            console.log("Charger All turned Off")
-        } catch (error) {
-            console.log("Communication Error (ALL) ");
-            const user = {
-                name: "ALL"
-            }
-            QUERY.record_error(user);
-        }
-    });
-}
-
 const charge_on_off = function (letter, on_off, user, updated_battery, current_price) {
     const params = encodeURIComponent(letter) + '/' + encodeURIComponent(on_off) + '/';
     if (
@@ -75,23 +52,20 @@ const charge_on_off = function (letter, on_off, user, updated_battery, current_p
 const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
 // const charge = schedule.scheduleJob('0 * * * * *', function(){
     db_connection.query(
-        QUERY_USERNEEDTOCHARGE + QUERY_GETPRICE + QUERY_NUMBEROFPRICE, (err, results) => {
+        QUERY_USERNEEDTOCHARGE + QUERY_GETPRICE, (err, results) => {
             if(err) throw err;
             else {
                 // get DB information
                 const user_list = results[0];
                 const price = results[1];
-                const distinct_price = results[2][0].distinct_number_of_price;
                 const length = user_list.length;
                 const currentHour = (new Date()).getHours();
                 const dt = new Date();
                 dt.setHours(dt.getHours()+9);
                 const now = dt.toISOString().slice(0, 19).replace('T', ' ');
-                console.log("\n\nTime: ", now);
-                console.log("Number of Users: ", length);
+                console.log("\n\nTime: ", now, "Number of Users: ", length);
 
                 // init
-                // all_off();
                 var current_price = 0;
                 for( j = 0 ; j < 24; j++ ){
                     if ( price[j].hour == currentHour ) {
@@ -104,10 +78,11 @@ const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
                 // for every user on list
                 for ( user_num = 0 ; user_num < length ; user_num++ ){
                     // send request using setTimeout function on seconds
-                    (function(i) {
+                    ( function(i) {
                         setTimeout(function(){
                             const user = user_list[i];
                             const type = user.charge_type;
+                            const exit_time = parseInt(user.exit_time.substring(0,2));
                             console.log("\nUser: ", user.name, ", ", type);
 
                             // Charge type - battery
@@ -124,7 +99,7 @@ const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
                                 else {
                                     // calculate number of charge needed & exit_time
                                     const number_of_charge_needed = Math.ceil((user.goal_battery_or_price - user.current_battery) / 25);
-                                    const time_left = (parseInt(user.exit_time.substring(0,2)) - currentHour + 24) % 24;
+                                    const time_left = ( exit_time - currentHour + 24) % 24;
                                     console.log("time left: ", time_left, ", number_of_charge_needed: ", number_of_charge_needed);
 
                                     // Time not left much, just charge
@@ -135,16 +110,25 @@ const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
                                     }
                                     // Find time with the Cheapest price when enough time left
                                     else {
-                                        for( j = 0 ; j < (number_of_charge_needed + 24 - distinct_price) ; j++ ){
-                                            if ( price[j].hour == currentHour ) {
-                                                console.log("Charge by battery(cheap price)!");
+                                        var charge_cnt = 0;
+                                        for( j = 0 ; j < 24 ; j++ ){
+                                            // skip if not in time range
+                                            if ( (exit_time - price[i].hour + 24) % 24 > time_left ||  exit_time == price[i].hour ) {
+                                                // turn off if no price found
+                                                if ( j == 23 ) {
+                                                    charge_on_off(charger_conversion[user.charger], 0, user, user.current_battery, current_price);
+                                                    break;
+                                                }
+                                                continue;
+                                            }
+                                            // if hour is current hour && in range of number of charges
+                                            else if ( price[j].hour == currentHour && charge_cnt < number_of_charge_needed ) {
+                                                console.log("Charge by battery(cheapest price)!");
                                                 const updated_battery = user.current_battery > 75 ? 100 : user.current_battery+25;
                                                 charge_on_off(charger_conversion[user.charger], 1, user, updated_battery, current_price);
                                                 break;
-                                            } else {
-                                                charge_on_off(charger_conversion[user.charger], 0, user, user.current_battery, current_price);
-                                                break;
                                             }
+                                            else charge_cnt++;
                                         }
                                     }    
                                 }
@@ -167,10 +151,11 @@ const set_charge = schedule.scheduleJob('10 0 * * * *', function(){
                                     const updated_battery = user.current_battery > 75 ? 100 : user.current_battery+25;
                                     charge_on_off(charger_conversion[user.charger], 1, user, updated_battery, current_price);
                                 }
-                                else {
-                                    charge_on_off(charger_conversion[user.charger], 0, user, user.current_battery, current_price);
-                                }
+                                // Else turn off
+                                else charge_on_off(charger_conversion[user.charger], 0, user, user.current_battery, current_price);
                             }
+
+                            else console.log("DB error, something wrong in column type (table: user_status)")
                         }, 10000 * i )
                     })(user_num);
                 }
