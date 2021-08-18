@@ -9,11 +9,14 @@ const status = [
     document.getElementById("C")
 ];
 const char = ['A','B','C'];
+const lock = document.getElementById("lock");
 
 btn[0].addEventListener("change", event => changeValue(0));
 btn[1].addEventListener("change", event => changeValue(1));
 btn[2].addEventListener("change", event => changeValue(2));
-
+lock.addEventListener("click", event => {
+    alert("Locked!");
+})
 
 function sendRequest(num){
     var xhr = new XMLHttpRequest();

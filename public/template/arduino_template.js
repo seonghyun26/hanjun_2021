@@ -10,6 +10,8 @@ module.exports = {
         <link type="text/css" rel="stylesheet" href="/css/button.css" />
         <link type="text/css" rel="stylesheet" href="/css/input.css" />
         <link type="text/css" rel="stylesheet" href="/css/toggle.css" />
+        <link rel="shortcut icon" href="/image/chip.png" type="image/x-icon">
+        <link rel="icon" href="/image/chip.png" type="image/x-icon">
       </head>
 
       <body>
@@ -18,6 +20,7 @@ module.exports = {
         </button>
     
         <h2> Arudino Control Page </h2>
+        <h3> - ONLINE - </h3>
 
         ${status}
         ${a}
@@ -34,60 +37,13 @@ module.exports = {
         <br>
         <button class="button_small" onClick="location.href='/arduino/C/1'">ON</button>
         <button class="button_small" onClick="location.href='/arduino/C/0'">OFF</button>
+        <br><br>
 
-        <script type="text/javascript" src="/template/arduino_script.js"></script>
-
-      </body>
-    </html>
-    `
-  },
-
-  HTML_error:function() {
-    return `
-    <!DOCTYPE html>
-    <html lang="EN">
-      <head>
-        <title>Arduino</title>
-        <meta charset="utf-8">
-        <link type="text/css" rel="stylesheet" href="/css/main.css" />
-        <link type="text/css" rel="stylesheet" href="/css/button.css" />
-        <link type="text/css" rel="stylesheet" href="/css/input.css" />
-        <link type="text/css" rel="stylesheet" href="/css/toggle.css" />
-      </head>
-
-      <body>
-        <button class="button" onClick="location.href='http://115.85.181.94:3000/'">
-          <img src="http://115.85.181.94:3000/image/home_icon.png" width="40px" height="40px" alt="Home">
-        </button>
-    
-        <h2> Arudino Control Page </h2>
-        <h3> - OFFLINE - </h3>
-
-
-        <b class="title">A</b>&nbsp&nbsp
-        <b class="title" id="A">OFF</b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-        <form class="switch">
-          <input type="checkbox" id="BtnA">
-          <span class="slider round"></span>
+        <form method="POST" id="lock" action="/arduino/lock">
+          <input class="button" type="submit" value="LOCK">
         </form>
-        <br><br>
-        <b class="title">B</b>&nbsp&nbsp
-        <b class="title" id="B">OFF</b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-        <label class="switch">
-          <input type="checkbox" id="BtnB">
-          <span class="slider round"></span>
-        </label>
-        <br><br>
-        <b class="title">C</b>&nbsp&nbsp
-        <b class="title" id="C">OFF</b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-        <label class="switch">
-          <input type="checkbox" id="BtnC">
-          <span class="slider round"></span>
-        </label>
-        <br><br>
 
-        <script type="text/javascript" src="/template/arduino_script.js"></script>
-
+        <script type="text/javascript" src="/js/arduino_script.js"></script>
       </body>
     </html>
     `
