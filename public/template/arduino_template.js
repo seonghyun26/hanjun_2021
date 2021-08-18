@@ -20,6 +20,7 @@ module.exports = {
         </button>
     
         <h2> Arudino Control Page </h2>
+        <h3> - ONLINE - </h3>
 
         ${status}
         ${a}
@@ -36,6 +37,11 @@ module.exports = {
         <br>
         <button class="button_small" onClick="location.href='/arduino/C/1'">ON</button>
         <button class="button_small" onClick="location.href='/arduino/C/0'">OFF</button>
+        <br><br>
+
+        <form method="POST" id="lock" action="/arduino/lock">
+          <input class="button" type="submit" value="LOCK">
+        </form>
 
         <script type="text/javascript" src="/js/arduino_script.js"></script>
       </body>

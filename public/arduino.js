@@ -15,7 +15,7 @@ const template = require('./template/arduino_template.js');
 router.get('/', function (req, res) {
     const saved_pw = req.cookies.lock;
     console.log("Arduino pw:", saved_pw)
-    if ( saved_pw == undefined || saved_pw != 'dpzh' ) res.redirect('/arduino/lock');
+    if ( saved_pw != 'dpzh' ) res.redirect('/arduino/locked');
     else {
         request({
             url: URL,
@@ -44,14 +44,28 @@ router.get('/', function (req, res) {
 });
 
 
-//
-router.get('/lock', function (req, res) {
-    res.sendFile(__dirname + "/html/arduino_lock.html");
+// lock & unlock
+router.get('/locked', function (req, res) {
+    res.sendFile(__dirname + "/html/arduino_locked.html");
 })
-
 router.post('/lock', function (req, res) {
-    res.cookie('lock', 'dpzh');
-    res.redirect('/arduino');
+    res.clearCookie('lock');
+    res.redirect('/');
+})
+router.post('/unlock', function (req, res) {
+    if ( req.body.ps == 'dpzh' ) {
+        res.cookie('lock', 'dpzh');
+        res.redirect('/arduino');
+    }
+    else {
+        res.send(`
+            <script>
+                alert('Wrong Password');
+                window.location=\"http://115.85.181.94:3000/arduino/locked\"
+            </script>
+        `);
+        res.end();
+    }
 })
 
 
