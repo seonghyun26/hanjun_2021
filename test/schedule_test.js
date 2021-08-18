@@ -89,4 +89,4 @@ const test3 = schedule.scheduleJob('* * * * * *', function(){
         }
     )
 });
-// test3.cancel();
+test3.cancel();
