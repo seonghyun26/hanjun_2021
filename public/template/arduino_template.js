@@ -37,8 +37,7 @@ module.exports = {
         <button class="button_small" onClick="location.href='/arduino/C/1'">ON</button>
         <button class="button_small" onClick="location.href='/arduino/C/0'">OFF</button>
 
-        <script type="text/javascript" src="/template/arduino_script.js"></script>
-
+        <script type="text/javascript" src="/js/arduino_script.js"></script>
       </body>
     </html>
     `

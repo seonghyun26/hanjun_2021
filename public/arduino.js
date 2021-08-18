@@ -43,10 +43,17 @@ router.get('/', function (req, res) {
     }
 });
 
+
 //
 router.get('/lock', function (req, res) {
-    res.send("Hello World");
+    res.sendFile(__dirname + "/html/arduino_lock.html");
 })
+
+router.post('/lock', function (req, res) {
+    res.cookie('lock', 'dpzh');
+    res.redirect('/arduino');
+})
+
 
 // Send ON/OFF signal to Arduino Server
 router.post('/:letter/:on_off', function (req, res) {
