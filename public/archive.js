@@ -9,7 +9,12 @@ const QUERY_WEATHER = `SELECT * FROM history_weather`;
 const QUERY_SMP = `SELECT * FROM history_smp`;
 const QUERY_LOAD = `SELECT * FROM history_load`;
 const QUERY_PRICE = `SELECT * FROM price_24`;
-
+const QUERY_PRICE_DATA = function (num) {
+    return`
+        SELECT * FROM history_price
+        WHERE day='${num}';
+    `;
+}
 
 router.get('/', function (req, res) {
     db_connection.query(QUERY_WEATHER, (err, results) => {
@@ -57,6 +62,22 @@ router.get('/price', function (req, res) {
             })
             const graph_price = archive_template.graph(price_list);
             const html = archive_template.HTML_price(graph_price);
+            res.write(html);
+            res.end();
+        }
+    });
+});
+
+router.get('/price/data', function (req, res) {
+    db_connection.query(QUERY_PRICE_DATA(9) + QUERY_PRICE_DATA(17) + QUERY_PRICE_DATA(20), (err, results) => {
+        if(err) throw err;
+        else {
+            const data_9 = Object.values(results[0][0]).slice(3, 27);
+            const data_17 = Object.values(results[1][0]).slice(3, 27);
+            const data_20 = Object.values(results[2][0]).slice(3, 27);
+            // console.log(data_9, data_17, data_20);
+            const graph_price_data = archive_template.graph(data_9, data_17, data_20);
+            const html = archive_template.HTML_price_data(graph_price_data);
             res.write(html);
             res.end();
         }
