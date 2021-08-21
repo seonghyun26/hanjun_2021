@@ -81,9 +81,12 @@ router.post('/:letter/:on_off', function (req, res) {
     request({
         url: URL + params,
         method: 'GET',
-        timeout: 3000
+        timeout: 2000
     }, function (error, response, body) {
-        if (error) throw error;
+        if (error) {
+            console.log("Error: ", error);
+            res.end()
+        }
     });
 });
 
