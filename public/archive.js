@@ -76,7 +76,7 @@ router.get('/price/data', function (req, res) {
             const data_17 = Object.values(results[1][0]).slice(3, 27);
             const data_20 = Object.values(results[2][0]).slice(3, 27);
             // console.log(data_9, data_17, data_20);
-            const graph_price_data = archive_template.graph(data_9, data_17, data_20);
+            const graph_price_data = archive_template.graph_price(data_9, data_17, data_20);
             const html = archive_template.HTML_price_data(graph_price_data);
             res.write(html);
             res.end();

@@ -293,7 +293,7 @@ module.exports = {
         `
     },
 
-    graph:function (data1, data2, data3 ) {
+    graph_price:function (data1, data2, data3 ) {
         return `
             <div>
                 <canvas id="priceChart" responsive="true" style="position: relative; height:75vh; width:80vw"></canvas>
@@ -328,6 +328,18 @@ module.exports = {
                         borderColor: '#f04',
                         data: [${data3}],
                         tension: 0.1
+                    },
+                    {
+                        label: '현재 가격',
+                        backgroundColor: '#00f',
+                        borderColor: '#00f',
+                        data: [
+                            52.6, 52.6, 52.6, 52.6, 52.6, 52.6,
+                            52.6, 52.6, 52.6, 140.3, 227.5, 227.5, 
+                            140.3, 227.5, 227.5, 227.5, 227.5, 140.3,
+                            140.3, 140.3, 140.3, 140.3, 140.3, 52.6
+                        ],
+                        tension: 0
                     }
                 ]
             };
@@ -355,8 +367,20 @@ module.exports = {
                         }
                     },
                     y: {
+                        title: {
+                            display: true,
+                            text: "원 / kWh",
+                            font : {
+                                weight: 'bold',
+                                size: 16
+                            }
+                        },
                         min: 40,
                         max: 310,
+                        ticks: {
+                            minRotation: 90
+                        }
+                        
                     }
                 }
             }
