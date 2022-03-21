@@ -2,6 +2,7 @@
 ## **E**lectric **C**ar **O**ptimization - **System**
 
 Server Homepage: http://115.85.181.94:3000/  
+( Server is currently not running )
 ( Using Node JS, express server )
 
 Contributers: [seonghyun26](https://github.com/seonghyun26), [hyungus](https://github.com/hyungus), [YOUNGDON0903](https://github.com/YOUNGDON0903)
